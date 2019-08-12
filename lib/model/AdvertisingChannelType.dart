@@ -1,0 +1,4 @@
+enum AdvertisingChannelType {
+  Mall,
+  Airport
+}
