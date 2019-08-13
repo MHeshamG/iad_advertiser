@@ -25,8 +25,10 @@ class HomePage extends StatelessWidget {
             itemCount: entitiesToAdvertiseAt.length,
             itemBuilder: (context, index) {
               return InkWell(
-                onTap: (){
-                  Navigator.pushNamed(context, Routes.COMPOSITE_ADVERTISING_CHANNEL_DETAILS,arguments: entitiesToAdvertiseAt[index]);
+                onTap: () {
+                  Navigator.pushNamed(
+                      context, Routes.COMPOSITE_ADVERTISING_CHANNEL_DETAILS,
+                      arguments: entitiesToAdvertiseAt[index]);
                 },
                 child: Card(
                   semanticContainer: true,
