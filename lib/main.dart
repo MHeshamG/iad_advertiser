@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:iad_advertiser/model/AdvertisingChannelType.dart';
-import 'package:iad_advertiser/ui_utils/AdvertisingChannelTypeMapperToIcon.dart';
 import 'package:iad_advertiser/model/CompositeAdvertisingChannel.dart';
 import 'package:iad_advertiser/ui/HomePage.dart';
+
+import 'navigation/Router.dart';
 
 void main() => runApp(MyApp());
 CompositeAdvertisingChannel mallOfArabia = CompositeAdvertisingChannel(
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
+      onGenerateRoute: Router.generateRoute,
       theme: ThemeData(
         // This is the theme of your application.
         //
