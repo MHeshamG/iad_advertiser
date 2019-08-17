@@ -1,4 +1,8 @@
 enum AdvertisingChannelType {
   Mall,
-  Airport
+  Airport,
+
+  Billboard,
+  Banner,
+  DoubleBanner
 }

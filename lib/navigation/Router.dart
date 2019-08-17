@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:iad_advertiser/model/AdvertisingChannel.dart';
 import 'package:iad_advertiser/model/CompositeAdvertisingChannel.dart';
 import 'package:iad_advertiser/ui/CompositeAdvertisingChannelDetails.dart';
 import 'package:iad_advertiser/ui/HomePage.dart';
@@ -11,8 +9,7 @@ class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.HOME:
-        var listOfAdvertisingChannels = settings.arguments as List<AdvertisingChannel>;
-        return MaterialPageRoute(builder: (_) => HomePage(listOfAdvertisingChannels));
+        return MaterialPageRoute(builder: (_) => HomePage());
       case Routes.COMPOSITE_ADVERTISING_CHANNEL_DETAILS:
         var AdvertisingChannel = settings.arguments as CompositeAdvertisingChannel;
         return MaterialPageRoute(builder: (_) => CompositeAdvertisingChannelDetails(AdvertisingChannel));
