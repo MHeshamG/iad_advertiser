@@ -7,5 +7,6 @@ class Billboard extends AdvertisingChannel{
 
   Billboard(String name, String imageSrc, String qoute, AdvertisingChannelType type) : super(name, imageSrc, qoute, type);
   Billboard.withTag(String name, String imageSrc, String qoute, AdvertisingChannelType type,AdvertisingChannelTag tag) : super.withTag(name, imageSrc, qoute, type, tag);
+  Billboard.withCost(String name, String imageSrc, String qoute, AdvertisingChannelType type,AdvertisingChannelTag tag,double cost,int views,int numOfAds) : super.withCost(name, imageSrc, qoute, type, tag, cost,views, numOfAds);
 
 }

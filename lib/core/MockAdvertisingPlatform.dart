@@ -31,29 +31,29 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
 
   @override
   Future<List<AdvertisingChannel>> fetchAdvertisingPlaces() {
-    CompositeAdvertisingChannel mallOfArabia = CompositeAdvertisingChannel(
+    CompositeAdvertisingChannel mallOfArabia = CompositeAdvertisingChannel.withNumberOfAds(
         "Mall Of Arabia",
         "https://images.unsplash.com/photo-1518296968927-03cb25efaa54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
         "Second Biggest Mall In Egypt",
-        AdvertisingChannelType.Mall);
+        AdvertisingChannelType.Mall,200);
 
     List<CompositeAdvertisingChannel> entities = [
       mallOfArabia,
-      CompositeAdvertisingChannel(
+      CompositeAdvertisingChannel.withNumberOfAds(
           "Festival Mall",
           "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1216&q=80",
           "New Cairo Mall",
-          AdvertisingChannelType.Mall),
-      CompositeAdvertisingChannel(
+          AdvertisingChannelType.Mall,300),
+      CompositeAdvertisingChannel.withNumberOfAds(
           "Mall Of Egypt",
           "https://images.unsplash.com/photo-1533481405265-e9ce0c044abb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80",
           "Biggest Mall In Egypt",
-          AdvertisingChannelType.Mall),
-      CompositeAdvertisingChannel(
+          AdvertisingChannelType.Mall,200),
+      CompositeAdvertisingChannel.withNumberOfAds(
           "Cairo Airport",
           "https://images.unsplash.com/photo-1543159821-9161ad7d5682?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
           "Capital Airport",
-          AdvertisingChannelType.Airport)
+          AdvertisingChannelType.Airport,200)
     ];
     Completer<List<AdvertisingChannel>> completer = Completer();
     completer.complete(entities);
@@ -64,22 +64,22 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
   Future<List<AdvertisingChannel>> fetchBillboardsAtAdvertisingPlace(
       int placeId) {
     List<AdvertisingChannel> entities = [
-      Billboard.withTag("Main Gate Billboard", null, "At the main gate of the mall ",
-          AdvertisingChannelType.Banner,AdvertisingChannelTag.HOT),
-      Billboard.withTag("Main Gate Billboard", null, "At the main gate of the mall ",
-          AdvertisingChannelType.Banner,AdvertisingChannelTag.HOT),
-      Billboard.withTag("Main Gate Billboard", null, "At the main gate of the mall ",
-          AdvertisingChannelType.Banner,AdvertisingChannelTag.STAR),
-      Billboard.withTag("Main Gate Billboard", null, "At the main gate of the mall ",
-          AdvertisingChannelType.Billboard,AdvertisingChannelTag.ECONOMY),
-      Billboard.withTag("Main Gate Billboard", null, "At the main gate of the mall ",
-          AdvertisingChannelType.DoubleBanner,AdvertisingChannelTag.ECONOMY),
-      Billboard.withTag("Main Gate Billboard", null, "At the main gate of the mall ",
-          AdvertisingChannelType.Billboard,AdvertisingChannelTag.STAR),
-      Billboard.withTag("Main Gate Billboard", null, "At the main gate of the mall ",
-          AdvertisingChannelType.DoubleBanner,AdvertisingChannelTag.HOT),
-      Billboard.withTag("Main Gate Billboard", null, "At the main gate of the mall ",
-          AdvertisingChannelType.DoubleBanner,AdvertisingChannelTag.HOT),
+      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+          AdvertisingChannelType.Banner,AdvertisingChannelTag.Hot,100,1000,50),
+      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+          AdvertisingChannelType.Banner,AdvertisingChannelTag.Hot,100,1000,50),
+      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+          AdvertisingChannelType.Banner,AdvertisingChannelTag.Star,100,1000,50),
+      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+          AdvertisingChannelType.Billboard,AdvertisingChannelTag.Eco,100,1000,50),
+      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+          AdvertisingChannelType.DoubleBanner,AdvertisingChannelTag.Eco,100,1000,50),
+      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+          AdvertisingChannelType.Billboard,AdvertisingChannelTag.Star,100,1000,50),
+      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+          AdvertisingChannelType.DoubleBanner,AdvertisingChannelTag.Hot,100,1000,50),
+      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+          AdvertisingChannelType.DoubleBanner,AdvertisingChannelTag.Hot,100,1000,50),
     ];
     Completer<List<AdvertisingChannel>> completer = Completer();
     completer.complete(entities);

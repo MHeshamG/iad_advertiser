@@ -23,6 +23,21 @@ class AdvertisingChannelTypeMapperToIcon {
     }
   }
 
+  static Color mapColor(AdvertisingChannelType type) {
+    switch (type) {
+      case AdvertisingChannelType.Mall:
+        return Colors.white;
+      case AdvertisingChannelType.Airport:
+        return Colors.white;
+      case AdvertisingChannelType.Banner:
+        return Color(0xFFF8CE00);
+      case AdvertisingChannelType.Billboard:
+        return Color(0xFF07DAF7);
+      case AdvertisingChannelType.DoubleBanner:
+        return Color(0xFF07DAF7);
+    }
+  }
+
   static Widget createIcon(AssetImage icon){
     return Container(
       width: 50.0,

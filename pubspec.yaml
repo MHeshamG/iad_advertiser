@@ -26,6 +26,7 @@ dependencies:
   font_awesome_flutter: ^8.5.0
   get_it:
   provider: ^2.0.1
+  flutter_datetime_picker: ^1.2.6
 
 dev_dependencies:
   flutter_test:

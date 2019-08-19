@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:iad_advertiser/model/Billboard.dart';
 import 'package:iad_advertiser/model/CompositeAdvertisingChannel.dart';
+import 'package:iad_advertiser/ui/BillboardPage.dart';
 import 'package:iad_advertiser/ui/CompositeAdvertisingChannelDetails.dart';
 import 'package:iad_advertiser/ui/HomePage.dart';
 
@@ -13,6 +15,9 @@ class Router {
       case Routes.COMPOSITE_ADVERTISING_CHANNEL_DETAILS:
         var AdvertisingChannel = settings.arguments as CompositeAdvertisingChannel;
         return MaterialPageRoute(builder: (_) => CompositeAdvertisingChannelDetails(AdvertisingChannel));
+      case Routes.BILLBOARD_PAGE:
+        var AdvertisingChannel = settings.arguments as Billboard;
+        return MaterialPageRoute(builder: (_) => BillboardPage(AdvertisingChannel));
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

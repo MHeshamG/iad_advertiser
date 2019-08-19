@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iad_advertiser/core/view_models/CompositeAdvertisingChannelDetailsViewModel.dart';
 import 'package:iad_advertiser/core/view_models/ViewState.dart';
 import 'package:iad_advertiser/model/CompositeAdvertisingChannel.dart';
+import 'package:iad_advertiser/navigation/Routes.dart';
 import 'package:iad_advertiser/ui/BaseView.dart';
 import 'package:iad_advertiser/ui/ui_utils/AdvertisingChannelTagMapperToIcon.dart';
 import 'package:iad_advertiser/ui/ui_utils/AdvertisingChannelTypeMapperToIcon.dart';
@@ -54,8 +55,8 @@ class CompositeAdvertisingChannelDetails extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
                                   gradient: LinearGradient(colors: [
-                                    Colors.pink,
-                                    Colors.deepPurple
+                                    Color(0xFFD84255),
+                                    Color(0xFF9D2A65)
                                   ])),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,47 +75,13 @@ class CompositeAdvertisingChannelDetails extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: <Widget>[
-                                      Container(
-                                        width: 100.0,
-                                        height: 100.0,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color:
-                                                Colors.white.withOpacity(0.3)),
-                                        alignment: Alignment.center,
-                                        child: Container(
-                                          width: 75.0,
-                                          height: 75.0,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                    "images/ground_billboard.png"),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            "${advertisingChannel.advertisingBillboards.length}",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 32.0,
-                                                fontWeight: FontWeight.w300),
-                                          ),
-                                          Text(
-                                            "Billboards",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 24.0,
-                                                fontWeight: FontWeight.w300),
-                                          ),
-                                        ],
-                                      ),
+                                      buildInfoText(
+                                          advertisingChannel
+                                              .advertisingBillboards.length,
+                                          "Billboards"),
+                                      buildInfoText(
+                                          advertisingChannel.numberOfAds,
+                                          "Ads"),
                                     ],
                                   ),
                                 ],
@@ -129,6 +96,9 @@ class CompositeAdvertisingChannelDetails extends StatelessWidget {
                                       borderRadius:
                                           BorderRadius.circular(10.0)),
                                   child: ListTile(
+                                    onTap: (){
+                                      Navigator.pushNamed(context, Routes.BILLBOARD_PAGE,arguments: advertisingChannel.advertisingBillboards[index]);
+                                    },
                                       leading:
                                           AdvertisingChannelTypeMapperToIcon
                                               .map(advertisingChannel
@@ -149,5 +119,23 @@ class CompositeAdvertisingChannelDetails extends StatelessWidget {
                       ],
                     )));
     });
+  }
+
+  Column buildInfoText(int num, String txt) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          "${num}",
+          style: TextStyle(
+              color: Colors.white, fontSize: 32.0, fontWeight: FontWeight.w300),
+        ),
+        Text(
+          txt,
+          style: TextStyle(
+              color: Colors.white, fontSize: 24.0, fontWeight: FontWeight.w200),
+        ),
+      ],
+    );
   }
 }
