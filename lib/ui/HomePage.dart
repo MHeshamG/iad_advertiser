@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
                                     viewModel.placesToAdvertiseAt[index]
                                         .getImageForThisAdvertisingChannel(),
                                     Container(
-                                      color: Colors.cyan,
+                                      color: Color(0xFFE23A7E),
                                       child: ListTile(
                                         leading:
                                             AdvertisingChannelTypeMapperToIcon

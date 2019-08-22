@@ -16,12 +16,7 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
     return null;
   }
 
-  @override
-  Future<bool> checkBillboardAvailability(
-      int billboardId, DateTime adDateTime) {
-    // TODO: implement checkBillboardAvailability
-    return null;
-  }
+
 
   @override
   Future<List<AdvertisingUnit>> fetchAdvertisingHistory(User user) {
@@ -90,5 +85,14 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
   Future<void> reserveAdvertisingChannel(AdvertisingUnit advertisingUnit) {
     // TODO: implement reserveAdvertisingChannel
     return null;
+  }
+
+  @override
+  Future<bool> checkBillboardAvailability(int billboardId, DateTime adStartDateTime, DateTime adEndDateTime) {
+    bool isAvailable = true;
+    Completer<bool> completer = Completer();
+    Future.delayed(Duration(seconds: 1));
+    completer.complete(isAvailable);
+    return completer.future;
   }
 }

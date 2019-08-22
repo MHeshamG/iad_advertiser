@@ -18,19 +18,19 @@ class AdvertisingChannelTagMapperToIcon {
       case AdvertisingChannelTag.Hot:
         return Icon(
           Icons.whatshot,
-          color: Colors.white,
+          color: Colors.redAccent,
           size: 50.0,
         );
       case AdvertisingChannelTag.Star:
         return Icon(
           Icons.star,
-          color: Colors.white,
+          color: Colors.orangeAccent,
           size: 50.0,
         );
       case AdvertisingChannelTag.Eco:
         return Icon(
           Icons.attach_money,
-          color: Colors.white,
+          color: Colors.green,
           size: 50.0,
         );
     }
