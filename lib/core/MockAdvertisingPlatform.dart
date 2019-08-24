@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:iad_advertiser/Locator.dart';
 import 'package:iad_advertiser/core/AdvertisingPlatform.dart';
+import 'package:iad_advertiser/core/AdvertisingUnitsHandler.dart';
+import 'package:iad_advertiser/model/AdTimeInterval.dart';
 import 'package:iad_advertiser/model/AdvertisingChannel.dart';
 import 'package:iad_advertiser/model/AdvertisingChannelTag.dart';
 import 'package:iad_advertiser/model/AdvertisingChannelType.dart';
@@ -59,21 +62,21 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
   Future<List<AdvertisingChannel>> fetchBillboardsAtAdvertisingPlace(
       int placeId) {
     List<AdvertisingChannel> entities = [
-      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+      Billboard.withCost(1,"Main Gate Billboard", null, "At the main gate of the mall ",
           AdvertisingChannelType.Banner,AdvertisingChannelTag.Hot,100,1000,50),
-      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+      Billboard.withCost(2,"Main Gate Billboard", null, "At the main gate of the mall ",
           AdvertisingChannelType.Banner,AdvertisingChannelTag.Hot,100,1000,50),
-      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+      Billboard.withCost(3,"Main Gate Billboard", null, "At the main gate of the mall ",
           AdvertisingChannelType.Banner,AdvertisingChannelTag.Star,100,1000,50),
-      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+      Billboard.withCost(4,"Main Gate Billboard", null, "At the main gate of the mall ",
           AdvertisingChannelType.Billboard,AdvertisingChannelTag.Eco,100,1000,50),
-      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+      Billboard.withCost(5,"Main Gate Billboard", null, "At the main gate of the mall ",
           AdvertisingChannelType.DoubleBanner,AdvertisingChannelTag.Eco,100,1000,50),
-      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+      Billboard.withCost(6,"Main Gate Billboard", null, "At the main gate of the mall ",
           AdvertisingChannelType.Billboard,AdvertisingChannelTag.Star,100,1000,50),
-      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+      Billboard.withCost(7,"Main Gate Billboard", null, "At the main gate of the mall ",
           AdvertisingChannelType.DoubleBanner,AdvertisingChannelTag.Hot,100,1000,50),
-      Billboard.withCost("Main Gate Billboard", null, "At the main gate of the mall ",
+      Billboard.withCost(8,"Main Gate Billboard", null, "At the main gate of the mall ",
           AdvertisingChannelType.DoubleBanner,AdvertisingChannelTag.Hot,100,1000,50),
     ];
     Completer<List<AdvertisingChannel>> completer = Completer();
@@ -88,8 +91,10 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
   }
 
   @override
-  Future<bool> checkBillboardAvailability(int billboardId, DateTime adStartDateTime, DateTime adEndDateTime) {
-    bool isAvailable = true;
+  Future<bool> isBillboardAvailable(int billboardId, AdTimeInterval adTimeInterval) {
+    bool isAvailable;
+    AdvertisingUnitsHandler advertisingUnitsHandler = locator<AdvertisingUnitsHandler>();
+    isAvailable = !advertisingUnitsHandler.isBillboardReserved(billboardId,adTimeInterval);
     Completer<bool> completer = Completer();
     Future.delayed(Duration(seconds: 1));
     completer.complete(isAvailable);

@@ -18,7 +18,7 @@ abstract class AdvertisingChannel {
   AdvertisingChannel(this.name, this._imageSrc,this.qoute,this.type);
   AdvertisingChannel.withTag(this.name, this._imageSrc,this.qoute,this.type,this.tag);
   AdvertisingChannel.withNumberOfAds(this.name, this._imageSrc,this.qoute,this.type,this.numberOfAds);
-  AdvertisingChannel.withCost(this.name, this._imageSrc,this.qoute,this.type,this.tag,this._cost,this.views,this.numberOfAds);
+  AdvertisingChannel.withCost(this.id,this.name, this._imageSrc,this.qoute,this.type,this.tag,this._cost,this.views,this.numberOfAds);
 
   Image getImageForThisAdvertisingChannel(){
     if(_image == null)

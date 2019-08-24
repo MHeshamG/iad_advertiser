@@ -114,7 +114,7 @@ class BillboardPageState extends State<BillboardPage> {
                                 ),
                                 billboard.tag.toString().split(".").last),
                           ),
-                          ReserveActionButton(billboard.id),
+                          ReserveActionButton(billboard),
                         ],
                       ),
                     ],
@@ -177,9 +177,9 @@ class BillboardPageState extends State<BillboardPage> {
 }
 
 class ReserveActionButton extends StatelessWidget {
-  int billboardId;
+  AdvertisingChannel billboard;
 
-  ReserveActionButton(this.billboardId);
+  ReserveActionButton(this.billboard);
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +188,7 @@ class ReserveActionButton extends StatelessWidget {
       child: RaisedButton(
         onPressed: () {
           showModalBottomSheet(
-              context: context, builder: (context) => BottomSheetWidget(billboardId));
+              context: context, builder: (context) => BottomSheetWidget(billboard));
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
         child: Container(

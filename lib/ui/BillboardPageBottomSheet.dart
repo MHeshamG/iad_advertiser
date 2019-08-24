@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:iad_advertiser/Locator.dart';
+import 'package:iad_advertiser/core/AdvertisingUnitsHandler.dart';
 import 'package:iad_advertiser/core/view_models/BillboardPageBottomSheetViewModel.dart';
 import 'package:iad_advertiser/core/view_models/ViewState.dart';
+import 'package:iad_advertiser/model/AdTimeInterval.dart';
+import 'package:iad_advertiser/model/AdvertisingChannel.dart';
+import 'package:iad_advertiser/model/Billboard.dart';
+import 'package:iad_advertiser/model/ReservationUnit.dart';
 import 'package:iad_advertiser/ui/BaseView.dart';
 import 'package:iad_advertiser/ui/ui_utils/AppColors.dart';
 
 class BottomSheetWidget extends StatefulWidget {
-  int billboardId;
+  AdvertisingChannel billboard;
 
-  BottomSheetWidget(this.billboardId);
+  BottomSheetWidget(this.billboard);
 
   @override
-  State<StatefulWidget> createState() => _BottomSheetState(billboardId);
+  State<StatefulWidget> createState() => _BottomSheetState(billboard);
 }
 
 class _BottomSheetState extends State<BottomSheetWidget> {
@@ -19,14 +25,15 @@ class _BottomSheetState extends State<BottomSheetWidget> {
   String endDateTimeString = 'choose end DateTime';
   static const int startDateTimeIndex = 1;
   static const int endDateTimeIndex = 2;
-  DateTime startDateTime;
-  DateTime endDateTime;
-  int billboardId;
+  AdTimeInterval adTimeInterval;
+  Billboard billboard;
 
   bool checkButtonPressed = false;
   bool areValidDates = true;
 
-  _BottomSheetState(this.billboardId);
+  _BottomSheetState(this.billboard){
+    adTimeInterval = AdTimeInterval.withoutInit();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +62,13 @@ class _BottomSheetState extends State<BottomSheetWidget> {
                     child: viewModel.state == ViewState.IDLE
                         ? checkButtonPressed
                             ? viewModel.isBillboardAvailable
-                                ? buildAvailabilityStatus(Icons.verified_user,
-                                    "Billboard Is Available\n Press again to confirm Reservation", AppColors.green)
+                                ? buildAvailabilityStatus(
+                                    viewModel.isBillboardAvailable,
+                                    Icons.verified_user,
+                                    "Billboard Is Available\n Press again to confirm Reservation",
+                                    AppColors.green)
                                 : buildAvailabilityStatus(
+                                    viewModel.isBillboardAvailable,
                                     Icons.cancel,
                                     "Sorry, Billboard Is not Available",
                                     AppColors.red)
@@ -79,9 +90,8 @@ class _BottomSheetState extends State<BottomSheetWidget> {
           onPressed: () {
             checkButtonPressed = true;
             if (checkDatesAreValid()) {
-              print(checkDatesAreValid());
               viewModel.checkIsAvailableAdvertisingUnit(
-                  billboardId, startDateTime, endDateTime);
+                  billboard.id, adTimeInterval);
             } else
               setState(() {
                 areValidDates = false;
@@ -108,14 +118,16 @@ class _BottomSheetState extends State<BottomSheetWidget> {
               ? Container()
               : Text(
                   "Not Valid Dates",
-                  style: TextStyle(color: AppColors.red,fontWeight: FontWeight.w200),
+                  style: TextStyle(
+                      color: AppColors.red, fontWeight: FontWeight.w200),
                 ),
         )
       ],
     );
   }
 
-  Widget buildAvailabilityStatus(IconData icon, String txt, Color color) {
+  Widget buildAvailabilityStatus(
+      bool available, IconData icon, String txt, Color color) {
     return Column(
       children: <Widget>[
         Icon(
@@ -123,8 +135,17 @@ class _BottomSheetState extends State<BottomSheetWidget> {
           color: color,
         ),
         InkWell(
-          onTap: (){
-            
+          onTap: () {
+            if (available) {
+              print("reserved");
+              AdvertisingUnitsHandler advertisingUnitsHandler =
+                  locator<AdvertisingUnitsHandler>();
+              advertisingUnitsHandler.addToAdvertisingUnitIfPresentOrCreateOne(
+                  BillboardReservationUnit(
+                      billboard, adTimeInterval));
+
+              Navigator.pop(context);
+            }
           },
           child: Text(
             txt,
@@ -150,22 +171,23 @@ class _BottomSheetState extends State<BottomSheetWidget> {
         onConfirm: (date) {
       setState(() {
         if (dateTimeIndex == startDateTimeIndex) {
-          startDateTime = date;
-          startDateTimeString =
-              "starts at: " + date.toString().split(".").first;
+          adTimeInterval.adStartingDateTime = date;
+          startDateTimeString = "starts at: " + formatDateTimeToString(date);
         } else if (dateTimeIndex == endDateTimeIndex) {
-          endDateTime = date;
-          endDateTimeString = "ends at: " + date.toString().split(".").first;
+          adTimeInterval.adEndingDateTime = date;
+          endDateTimeString = "ends at: " + formatDateTimeToString(date);
         }
       });
     }, currentTime: DateTime.now());
   }
 
+  String formatDateTimeToString(DateTime date) {
+    return date.toString().split(".").first;
+  }
+
   bool checkDatesAreValid() {
-    print("called");
-    bool isValid = (startDateTime != null && endDateTime != null) &&
-        (endDateTime.isAfter(startDateTime));
-    print(isValid);
+    bool isValid = (adTimeInterval.adStartingDateTime != null && adTimeInterval.adEndingDateTime != null) &&
+        (adTimeInterval.adEndingDateTime.isAfter(adTimeInterval.adStartingDateTime) && adTimeInterval.adEndingDateTime.hour>adTimeInterval.adStartingDateTime.hour);
     return isValid;
   }
 

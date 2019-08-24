@@ -5,6 +5,8 @@ import 'package:iad_advertiser/core/view_models/ViewState.dart';
 import 'package:iad_advertiser/navigation/Routes.dart';
 import 'package:iad_advertiser/ui/BaseView.dart';
 import 'package:iad_advertiser/ui/ui_utils/AdvertisingChannelTypeMapperToIcon.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iad_advertiser/ui/ui_utils/AppColors.dart';
 
 class HomePage extends StatelessWidget {
   HomePageViewModel homePageViewModel = locator<HomePageViewModel>();
@@ -20,10 +22,27 @@ class HomePage extends StatelessWidget {
           Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.white,
-              title: Center(
-                  child: Text("Home",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w300))),
+              centerTitle: true,
+              title: Text(
+                "Home",
+                style:
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.w300),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: (){
+                    Navigator.pushNamed(context,Routes.CHECKOUT_PAGE);
+                  },
+                  child: Container(
+                    width: 30.0,
+                    height: 30.0,
+                    child: DecoratedBox(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage("images/card.png")))),
+                  ),
+                )
+              ],
               elevation: 1.0,
             ),
             body: Center(
@@ -51,7 +70,7 @@ class HomePage extends StatelessWidget {
                                     viewModel.placesToAdvertiseAt[index]
                                         .getImageForThisAdvertisingChannel(),
                                     Container(
-                                      color: Color(0xFFE23A7E),
+                                      color: AppColors.appThemeColor,
                                       child: ListTile(
                                         leading:
                                             AdvertisingChannelTypeMapperToIcon
