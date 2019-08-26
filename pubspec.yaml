@@ -27,6 +27,7 @@ dependencies:
   get_it:
   provider: ^2.0.1
   flutter_datetime_picker: ^1.2.6
+  image_picker:
 
 dev_dependencies:
   flutter_test:

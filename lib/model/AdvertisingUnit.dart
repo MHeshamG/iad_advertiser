@@ -21,7 +21,7 @@ class AdvertisingUnit {
 
   double calculateTotalCost() {
     double totalCost = 0;
-    totalCost =  advertisingChannels.fold(totalCost, (totalCost,advertisingChannel)=>totalCost+=advertisingChannel.calculateCost());
+    totalCost =  advertisingChannels.fold(totalCost, (totalCost,advertisingChannel)=>totalCost+=adTimeInterval.calculateTotalHours()*advertisingChannel.calculateCost());
     return totalCost;
   }
 

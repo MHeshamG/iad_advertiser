@@ -6,11 +6,12 @@ import 'package:iad_advertiser/navigation/Routes.dart';
 import 'package:iad_advertiser/ui/BaseView.dart';
 import 'package:iad_advertiser/ui/ui_utils/AdvertisingChannelTagMapperToIcon.dart';
 import 'package:iad_advertiser/ui/ui_utils/AdvertisingChannelTypeMapperToIcon.dart';
+import 'package:iad_advertiser/ui/ui_utils/AppColors.dart';
 
-class CompositeAdvertisingChannelDetails extends StatelessWidget {
+class AdvertisingPlaceDetailsPage extends StatelessWidget {
   CompositeAdvertisingChannel advertisingChannel;
 
-  CompositeAdvertisingChannelDetails(this.advertisingChannel);
+  AdvertisingPlaceDetailsPage(this.advertisingChannel);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class CompositeAdvertisingChannelDetails extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
                                   gradient: LinearGradient(colors: [
-                                    Color(0xFFD84255),
+                                   AppColors.appThemeColor,
                                     Color(0xFF9D2A65)
                                   ])),
                               child: Column(

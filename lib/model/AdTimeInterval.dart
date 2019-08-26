@@ -52,4 +52,12 @@ class AdTimeInterval {
 
     return overlaps;
   }
+
+  int calculateTotalHours(){
+    DateTime thisAdStartingDate = DateTime(adStartingDateTime.year,
+        adStartingDateTime.month, adStartingDateTime.day);
+    DateTime thisAdEndingDate = DateTime(
+        adEndingDateTime.year, adEndingDateTime.month, adEndingDateTime.day);
+    return (thisAdEndingDate.difference(thisAdStartingDate).inDays+1)*(adEndingDateTime.hour - adStartingDateTime.hour);
+  }
 }

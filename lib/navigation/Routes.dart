@@ -6,4 +6,6 @@ class Routes {
       "/BillboardPage";
   static const String CHECKOUT_PAGE =
       "/CheckOutAdvertisingUnitsPage";
+  static const String Wallet_PAGE =
+      "/WalletPage";
 }
