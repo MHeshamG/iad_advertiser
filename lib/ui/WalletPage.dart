@@ -1,14 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iad_advertiser/model/payment/CreditCardPaymentMethod.dart';
+import 'package:iad_advertiser/model/payment/PaymentMethod.dart';
+import 'package:iad_advertiser/model/payment/PaymentType.dart';
+import 'package:iad_advertiser/model/payment/WalletPaymentMethod.dart';
+import 'package:iad_advertiser/ui/CreditCardWidget.dart';
+import 'package:iad_advertiser/ui/WalletWidget.dart';
 import 'package:iad_advertiser/ui/ui_utils/AppColors.dart';
 
-class WalletPage extends StatelessWidget {
+class WalletPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => WalletPageState();
+}
+
+class WalletPageState extends State<WalletPage> {
+  List<Widget> paymentsCardsList;
+  List<PaymentMethod> paymentsMethods = [
+    WalletPaymentMethod(10000, PaymentType.WALLET),
+    CreditCardPaymentMethod("**** **** **** 9056", "12/19",
+        "MOHAMED HESHAM GAMAL", PaymentType.MASTER),
+    CreditCardPaymentMethod("**** **** **** 8042", "05/20",
+        "MOHAMED HESHAM GAMAL", PaymentType.VISA)
+  ];
+
+  PaymentMethod defaultPaymentMethod;
+  int currentPaymentCardIndex;
+
+  @override
+  void initState() {
+    defaultPaymentMethod = paymentsMethods[0];
+  }
+
   @override
   Widget build(BuildContext context) {
+    paymentsCardsList = [
+      WalletWidget(paymentsMethods[0]),
+      CreditCardWidget(AppColors.light_blue, paymentsMethods[1],
+          FontAwesomeIcons.ccMastercard),
+      CreditCardWidget(
+          AppColors.pink, paymentsMethods[2], FontAwesomeIcons.ccVisa)
+    ];
     return Scaffold(
       appBar: AppBar(
         elevation: 1.0,
-        backgroundColor: AppColors.light_purple,
+        backgroundColor: AppColors.appThemeColor,
         centerTitle: true,
         title: Text(
           "Wallet",
@@ -27,22 +62,66 @@ class WalletPage extends StatelessWidget {
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(8.0),
                       bottomRight: Radius.circular(8.0)),
-                  color: AppColors.light_purple,
+                  color: AppColors.appThemeColor,
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: FlatButton(
-                        onPressed: () {},
-                        color: AppColors.light_green,
-                        child: Text(
-                          "Add New Payment Method",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.light_purple),
+                      child: Text(
+                        "Payment Details",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            color: Colors.white,
+                            fontSize: 24.0),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Mohamed Hesham Gamal",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w200,
+                                color: Colors.white,
+                                fontSize: 18.0),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              width: 80, child: Divider(color: Colors.white)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "Default Payment",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
+                        buildDefaultPaymentInfoWidget(defaultPaymentMethod),
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FlatButton(
+                          onPressed: () {},
+                          color: AppColors.light_green,
+                          child: Text(
+                            "Add New Payment Method",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                color: AppColors.light_purple),
+                          ),
                         ),
                       ),
                     )
@@ -53,8 +132,14 @@ class WalletPage extends StatelessWidget {
               FlatButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0)),
-                onPressed: () {},
-                color: AppColors.light_purple,
+                onPressed: () {
+                  print("pressed " + currentPaymentCardIndex.toString());
+                  setState(() {
+                    defaultPaymentMethod =
+                        paymentsMethods[currentPaymentCardIndex];
+                  });
+                },
+                color: AppColors.appThemeColor,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Text(
@@ -71,6 +156,65 @@ class WalletPage extends StatelessWidget {
     );
   }
 
+  Widget buildDefaultPaymentInfoWidget(PaymentMethod paymentMethod) {
+    IconData icon;
+    String txtInfo;
+    String txtInfo2;
+    switch (paymentMethod.type) {
+      case PaymentType.WALLET:
+        icon = FontAwesomeIcons.wallet;
+        txtInfo = (paymentMethod as WalletPaymentMethod).amount.toString();
+        txtInfo2 = "EGP";
+        break;
+      case PaymentType.VISA:
+        icon = FontAwesomeIcons.ccVisa;
+        txtInfo = (paymentMethod as CreditCardPaymentMethod)
+            .creditCardNumber
+            .split(" ")
+            .last;
+        txtInfo2 = (paymentMethod as CreditCardPaymentMethod).endDate;
+        break;
+      case PaymentType.MASTER:
+        icon = FontAwesomeIcons.ccMastercard;
+        txtInfo = (paymentMethod as CreditCardPaymentMethod)
+            .creditCardNumber
+            .split(" ")
+            .last;
+        txtInfo2 = (paymentMethod as CreditCardPaymentMethod).endDate;
+        break;
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(
+            icon,
+            color: Colors.white,
+            size: 50,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            txtInfo,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 32.0,
+                fontWeight: FontWeight.w300),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: Text(
+            txtInfo2,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
+          ),
+        )
+      ],
+    );
+  }
+
   Widget _buildCarousel(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -82,159 +226,16 @@ class WalletPage extends StatelessWidget {
           child: PageView.builder(
             // store this controller in a State to save the carousel scroll position
             controller: PageController(viewportFraction: 0.8),
+            itemCount: paymentsCardsList.length,
             itemBuilder: (BuildContext context, int itemIndex) {
-              return _buildVisaCardItem();
+              return paymentsCardsList[itemIndex];
+            },
+            onPageChanged: (itemIndex) {
+              currentPaymentCardIndex = itemIndex;
             },
           ),
         )
       ],
-    );
-  }
-
-  Widget _buildWalletItem() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 4.0),
-      child: Card(
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Wallet",
-                  style: TextStyle(
-                      color: AppColors.light_purple,
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.w300),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: <Widget>[
-                    Icon(
-                      FontAwesomeIcons.wallet,
-                      color: AppColors.light_purple,
-                      size: 48.0,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "10,000",
-                        style: TextStyle(
-                            color: AppColors.light_purple,
-                            fontSize: 32.0,
-                            fontWeight: FontWeight.w300),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: Text(
-                        "EGP",
-                        style: TextStyle(
-                            color: AppColors.light_purple,
-                            fontWeight: FontWeight.w300),
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildVisaCardItem() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 4.0),
-      child: Card(
-        semanticContainer: true,
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        color: AppColors.light_blue,
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        child: Stack(
-
-          children:<Widget>[
-            Image(image: AssetImage("images/world.png"),color: Colors.white.withOpacity(0.3),)
-            ,Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
-                    child: Icon(
-                      FontAwesomeIcons.ccVisa,
-                      color: Colors.white,
-                      size: 32.0,
-                    )),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Credit Number",
-                            style: TextStyle(
-                                color: Colors.white, fontWeight: FontWeight.w300),
-                          ),
-                          Text(
-                            "**** **** **** 0956",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.w200),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left:8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text("Name",style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w200),),
-                          Text("MOHAMED HESHAM",style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w300),),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right:8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text("Date",style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w200),),
-                          Text("12/19",style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w300),),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-    ],
-        ),
-      ),
     );
   }
 }

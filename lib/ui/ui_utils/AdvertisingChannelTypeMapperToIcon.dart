@@ -31,7 +31,7 @@ class AdvertisingChannelTypeMapperToIcon {
       case AdvertisingChannelType.Airport:
         return Colors.white;
       default:
-        return AppColors.appThemeColor;
+        return AppColors.pink;
     }
   }
 

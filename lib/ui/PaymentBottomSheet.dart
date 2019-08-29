@@ -71,7 +71,7 @@ class PaymentBottomSheet extends StatelessWidget {
               },
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0)),
-              color: Colors.white,
+              color: AppColors.light_green,
               child: Text("Pay",
                   style: TextStyle(
                       fontSize: 18.0,
