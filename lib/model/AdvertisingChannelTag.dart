@@ -1,5 +1,5 @@
 enum AdvertisingChannelTag{
   Hot,
-  Star,
+  Top,
   Eco
 }

@@ -25,7 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   font_awesome_flutter: ^8.5.0
   get_it:
-  provider: ^2.0.1
+  provider: ^3.1.0
   flutter_datetime_picker: ^1.2.6
   image_picker:
 

@@ -8,11 +8,12 @@ import 'package:image_picker/image_picker.dart';
 class AdUnitsImagesLoader {
   Map<AdTimeInterval, File> advertisingUnitsAdsMap;
 
-  AdUnitsImagesLoader(){
+  AdUnitsImagesLoader() {
     advertisingUnitsAdsMap = HashMap();
   }
 
-  void loadImageForThisAdvertisingUnit(AdvertisingUnit advertisingUnit,Function(File) ifImageAlreadyPresent) async{
+  void loadImageForThisAdvertisingUnit(AdvertisingUnit advertisingUnit,
+      Function(File) ifImageAlreadyPresent) async {
     var image;
     if (advertisingUnitsAdsMap.containsKey(advertisingUnit.adTimeInterval)) {
       image = advertisingUnitsAdsMap[advertisingUnit.adTimeInterval];
@@ -20,14 +21,16 @@ class AdUnitsImagesLoader {
       //advertisingUnitsAdsMap.update(adtimeInterval, (file) => image);
     } else {
       image = await ImagePicker.pickImage(source: ImageSource.gallery);
-      advertisingUnitsAdsMap.putIfAbsent(advertisingUnit.adTimeInterval, () => image);
+      advertisingUnitsAdsMap.putIfAbsent(
+          advertisingUnit.adTimeInterval, () => image);
     }
   }
 
-  void requestImageChangeForAdvertisingUnit(AdvertisingUnit advertisingUnit) async{
+  void requestImageChangeForAdvertisingUnit(
+      AdvertisingUnit advertisingUnit) async {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    advertisingUnitsAdsMap.update(advertisingUnit.adTimeInterval,(imageFile)=>image);
+    if (image != null)
+      advertisingUnitsAdsMap.update(
+          advertisingUnit.adTimeInterval, (imageFile) => image);
   }
-
-
 }

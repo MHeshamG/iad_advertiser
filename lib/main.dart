@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iad_advertiser/Locator.dart';
-import 'package:iad_advertiser/ui/HomePage.dart';
+import 'package:iad_advertiser/ui/pages/LoginPage.dart';
 
 import 'navigation/Router.dart';
 
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         canvasColor: Colors.transparent
       ),
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }

@@ -5,7 +5,6 @@ import 'package:iad_advertiser/core/view_models/ViewState.dart';
 import 'package:iad_advertiser/navigation/Routes.dart';
 import 'package:iad_advertiser/ui/BaseView.dart';
 import 'package:iad_advertiser/ui/ui_utils/AdvertisingChannelTypeMapperToIcon.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iad_advertiser/ui/ui_utils/AppColors.dart';
 
 class HomePage extends StatelessWidget {

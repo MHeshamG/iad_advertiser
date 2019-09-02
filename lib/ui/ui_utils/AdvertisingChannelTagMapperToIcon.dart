@@ -6,8 +6,8 @@ class AdvertisingChannelTagMapperToIcon {
     switch (tag) {
       case AdvertisingChannelTag.Hot:
         return _createIcon(Icons.whatshot, "Hot", Colors.redAccent);
-      case AdvertisingChannelTag.Star:
-        return _createIcon(Icons.star, "Star", Colors.orangeAccent);
+      case AdvertisingChannelTag.Top:
+        return _createIcon(Icons.star, "Top", Colors.orangeAccent);
       case AdvertisingChannelTag.Eco:
         return _createIcon(Icons.attach_money, "Eco", Colors.green);
     }
@@ -21,7 +21,7 @@ class AdvertisingChannelTagMapperToIcon {
           color: Colors.redAccent,
           size: 50.0,
         );
-      case AdvertisingChannelTag.Star:
+      case AdvertisingChannelTag.Top:
         return Icon(
           Icons.star,
           color: Colors.orangeAccent,

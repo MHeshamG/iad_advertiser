@@ -84,7 +84,7 @@ class _BottomSheetState extends State<BottomSheetWidget> {
     return Column(
       children: <Widget>[
         RaisedButton(
-          color: AppColors.appThemeColor,
+          color: AppColors.pink,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           onPressed: () {

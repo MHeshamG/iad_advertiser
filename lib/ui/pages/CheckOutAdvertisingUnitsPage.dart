@@ -1,17 +1,13 @@
-import 'dart:collection';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:iad_advertiser/core/view_models/CheckoutAdvertisingUnitsViewModel.dart';
 import 'package:iad_advertiser/core/view_models/ViewState.dart';
-import 'package:iad_advertiser/model/AdTimeInterval.dart';
 import 'package:iad_advertiser/model/AdvertisingUnit.dart';
 import 'package:iad_advertiser/ui/BaseView.dart';
-import 'package:iad_advertiser/ui/PaymentBottomSheet.dart';
+import 'package:iad_advertiser/ui/widgets/PaymentBottomSheet.dart';
 import 'package:iad_advertiser/ui/ui_utils/AdUnitsImagesLoader.dart';
 import 'package:iad_advertiser/ui/ui_utils/AppColors.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 
 class CheckOutAdvertisingUnitsPage extends StatefulWidget {
   @override
@@ -158,12 +154,30 @@ class CheckOutAdvertisingUnitsPageState
   }
 
   Widget buildDateTimeInfoWidget(String dateTimeString) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Text(
-        dateTimeString,
-        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
-      ),
+    String date = dateTimeString.split(" ").first;
+    String time = dateTimeString.split(" ").last;
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Text(
+            date,
+            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.all(2.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6.0),
+            color: AppColors.pink,
+          ),
+          child: Text(time,
+              style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.white)),
+        )
+      ],
     );
   }
 

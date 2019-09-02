@@ -56,8 +56,9 @@ class AdvertisingPlaceDetailsPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
                                   gradient: LinearGradient(colors: [
+                                    AppColors.pink,
                                    AppColors.appThemeColor,
-                                    Color(0xFF9D2A65)
+
                                   ])),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
