@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "231066669144",
+    "firebase_url": "https://fair-circuit-237918.firebaseio.com",
+    "project_id": "fair-circuit-237918",
+    "storage_bucket": "fair-circuit-237918.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231066669144:android:6eef9a4b28fc10e3",
+        "android_client_info": {
+          "package_name": "com.iad_advertiser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231066669144-19qe7a3l3cnkkirl6rpkkd6dpl76h24a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfTVbc_GsiciA48y1Lsh9Xi1TW9R0ujMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231066669144-19qe7a3l3cnkkirl6rpkkd6dpl76h24a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

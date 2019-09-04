@@ -8,7 +8,7 @@ class CompositeAdvertisingChannelDetailsViewModel extends BaseViewModel{
   AdvertisingPlatform advertisingPlatform = locator<AdvertisingPlatform>();
   List<AdvertisingChannel> billboardsAtThisPlace;
 
-  void fetchBillboardsAtThisPlace(int placeId) async {
+  void fetchBillboardsAtThisPlace(String placeId) async {
     setState(ViewState.BUSY);
     billboardsAtThisPlace = await advertisingPlatform.fetchBillboardsAtAdvertisingPlace(placeId);
     setState(ViewState.IDLE);

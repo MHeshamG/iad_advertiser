@@ -29,29 +29,29 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
 
   @override
   Future<List<AdvertisingChannel>> fetchAdvertisingPlaces() {
-    CompositeAdvertisingChannel mallOfArabia = CompositeAdvertisingChannel.withNumberOfAds(
+    CompositeAdvertisingChannel mallOfArabia = CompositeAdvertisingChannel("1",
         "Mall Of Arabia",
         "https://images.unsplash.com/photo-1518296968927-03cb25efaa54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
         "Second Biggest Mall In Egypt",
-        AdvertisingChannelType.Mall,200);
+        AdvertisingChannelType.Mall,200,1000);
 
     List<CompositeAdvertisingChannel> entities = [
       mallOfArabia,
-      CompositeAdvertisingChannel.withNumberOfAds(
+      CompositeAdvertisingChannel("2",
           "Festival Mall",
           "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1216&q=80",
           "New Cairo Mall",
-          AdvertisingChannelType.Mall,300),
-      CompositeAdvertisingChannel.withNumberOfAds(
+          AdvertisingChannelType.Mall,300,1000),
+      CompositeAdvertisingChannel("3",
           "Mall Of Egypt",
           "https://images.unsplash.com/photo-1533481405265-e9ce0c044abb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80",
           "Biggest Mall In Egypt",
-          AdvertisingChannelType.Mall,200),
-      CompositeAdvertisingChannel.withNumberOfAds(
+          AdvertisingChannelType.Mall,200,1000),
+      CompositeAdvertisingChannel("4",
           "Cairo Airport",
           "https://images.unsplash.com/photo-1543159821-9161ad7d5682?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
           "Capital Airport",
-          AdvertisingChannelType.Airport,200)
+          AdvertisingChannelType.Airport,200,1000)
     ];
     Completer<List<AdvertisingChannel>> completer = Completer();
     completer.complete(entities);
@@ -60,9 +60,9 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
 
   @override
   Future<List<AdvertisingChannel>> fetchBillboardsAtAdvertisingPlace(
-      int placeId) {
+      String placeId) {
     List<AdvertisingChannel> entities = [
-      Billboard.withCost(1,"Main Gate Billboard", null, "At the main gate of the mall ",
+      /*Billboard.withCost(1,"Main Gate Billboard", null, "At the main gate of the mall ",
           AdvertisingChannelType.Banner,AdvertisingChannelTag.Hot,100,1000,50),
       Billboard.withCost(2,"Main Gate Billboard", null, "At the main gate of the mall ",
           AdvertisingChannelType.Banner,AdvertisingChannelTag.Hot,100,1000,50),
@@ -77,7 +77,7 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
       Billboard.withCost(7,"Main Gate Billboard", null, "At the main gate of the mall ",
           AdvertisingChannelType.DoubleBanner,AdvertisingChannelTag.Hot,100,1000,50),
       Billboard.withCost(8,"Main Gate Billboard", null, "At the main gate of the mall ",
-          AdvertisingChannelType.DoubleBanner,AdvertisingChannelTag.Hot,100,1000,50),
+          AdvertisingChannelType.DoubleBanner,AdvertisingChannelTag.Hot,100,1000,50),*/
     ];
     Completer<List<AdvertisingChannel>> completer = Completer();
     completer.complete(entities);
@@ -91,7 +91,7 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
   }
 
   @override
-  Future<bool> isBillboardAvailable(int billboardId, AdTimeInterval adTimeInterval) {
+  Future<bool> isBillboardAvailable(String billboardId, AdTimeInterval adTimeInterval) {
     bool isAvailable;
     AdvertisingUnitsHandler advertisingUnitsHandler = locator<AdvertisingUnitsHandler>();
     isAvailable = !advertisingUnitsHandler.isBillboardReserved(billboardId,adTimeInterval);

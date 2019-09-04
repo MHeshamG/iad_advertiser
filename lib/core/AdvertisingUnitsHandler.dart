@@ -36,7 +36,7 @@ class AdvertisingUnitsHandler {
     });
   }
 
-  bool isBillboardReserved(int billboardId, AdTimeInterval adTimeInterval) {
+  bool isBillboardReserved(String billboardId, AdTimeInterval adTimeInterval) {
     return _advertisingUnits.firstWhere(
                 (advertisingUnit) =>
                     (advertisingUnit.adTimeInterval == adTimeInterval ||

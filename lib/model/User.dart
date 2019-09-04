@@ -2,7 +2,8 @@ class User {
   String email;
   String Address;
   String phone;
+  String id;
 
-  User(this.email, this.Address, this.phone);
+  User(this.email,String id);
 
 }

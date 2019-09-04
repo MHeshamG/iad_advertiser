@@ -84,7 +84,7 @@ class BillboardPageState extends State<BillboardPage> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
                               child: Image.network(
-                                  "https://www.phdmedia.com/north-america/wp-content/uploads/sites/11/2016/07/Marks-the-colder-it-gets-900x600.jpg"),
+                                  billboard.imageSrc),
                             ),
                           ),
                           buildRowOfInfoCards(

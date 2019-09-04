@@ -8,7 +8,7 @@ class BillboardPageBottomSheetViewModel extends BaseViewModel{
   AdvertisingPlatform advertisingPlatform = locator<AdvertisingPlatform>();
   bool isBillboardAvailable = false;
 
-  void checkIsAvailableAdvertisingUnit(int billboardId, AdTimeInterval adTimeInterval) async{
+  void checkIsAvailableAdvertisingUnit(String billboardId, AdTimeInterval adTimeInterval) async{
     setState(ViewState.BUSY);
     isBillboardAvailable = await advertisingPlatform.isBillboardAvailable(billboardId, adTimeInterval);
     setState(ViewState.IDLE);
