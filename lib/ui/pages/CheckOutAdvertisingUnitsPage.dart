@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iad_advertiser/core/view_models/CheckoutAdvertisingUnitsViewModel.dart';
 import 'package:iad_advertiser/core/view_models/ViewState.dart';
 import 'package:iad_advertiser/model/AdvertisingUnit.dart';
@@ -7,7 +7,6 @@ import 'package:iad_advertiser/ui/BaseView.dart';
 import 'package:iad_advertiser/ui/widgets/PaymentBottomSheet.dart';
 import 'package:iad_advertiser/ui/ui_utils/AdUnitsImagesLoader.dart';
 import 'package:iad_advertiser/ui/ui_utils/AppColors.dart';
-
 
 class CheckOutAdvertisingUnitsPage extends StatefulWidget {
   @override
@@ -40,9 +39,20 @@ class CheckOutAdvertisingUnitsPageState
               elevation: 1.0,
             ),
             body: Container(
-                color: Colors.white,
-                child: viewModel.state == ViewState.IDLE
-                    ? ListView.builder(
+              width: MediaQuery.of(context).size.width,
+              color: Colors.white,
+              child: viewModel.state == ViewState.IDLE
+                  ? viewModel.advertisingUnits.length == 0
+                      ? buildNoAdvertisingUnitsView()
+                      : buildAdvertisingUnitsListView(viewModel)
+                  : CircularProgressIndicator(),
+            ),
+          ),
+    );
+  }
+
+  ListView buildAdvertisingUnitsListView(CheckOutAdvertisingUnitsViewModel viewModel) {
+    return ListView.builder(
                         itemCount: viewModel.advertisingUnits.length,
                         itemBuilder: (buildContext, index) => Card(
                               elevation: 4.0,
@@ -50,7 +60,8 @@ class CheckOutAdvertisingUnitsPageState
                                   borderRadius: BorderRadius.circular(8.0)),
                               child: Container(
                                 child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
@@ -65,14 +76,16 @@ class CheckOutAdvertisingUnitsPageState
                                       children: <Widget>[
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 8.0, right: 8.0, top: 8.0),
+                                              left: 8.0,
+                                              right: 8.0,
+                                              top: 8.0),
                                           child: Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: <Widget>[
                                               buildAdTimeIntervalInfoWidget(
-                                                  viewModel
-                                                      .advertisingUnits[index],
+                                                  viewModel.advertisingUnits[
+                                                      index],
                                                   index),
                                               buildTotalCostWidget(
                                                   viewModel
@@ -82,17 +95,40 @@ class CheckOutAdvertisingUnitsPageState
                                             ],
                                           ),
                                         ),
-                                        buildOperationsButtonsWidget(viewModel,
+                                        buildOperationsButtonsWidget(
+                                            viewModel,
                                             viewModel.advertisingUnits[index])
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
-                            ))
-                    : CircularProgressIndicator()),
-          ),
-    );
+                            ),);
+  }
+
+  Column buildNoAdvertisingUnitsView() {
+    return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Icon(
+                              FontAwesomeIcons.ad,
+                              color: AppColors.pink,
+                              size: 48.0,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text("Start Reserving Billboards Now",
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: AppColors.pink,
+                                  fontWeight: FontWeight.w300
+                                )),
+                          )
+                        ],
+                      );
   }
 
   Widget buildOperationsButtonsWidget(
@@ -100,18 +136,20 @@ class CheckOutAdvertisingUnitsPageState
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        buildIconButton(() {
-          loadImageForThisAdvertisingUnit(adUnit);
+        buildIconButton(() async {
+          adUnit.ad.imageFilePath = await loadImageForThisAdvertisingUnit(adUnit);
         }, Icons.camera_alt, AppColors.purple),
         buildIconButton(() {
           viewModel.deleteAdvertisingUnit(adUnit);
         }, Icons.delete, AppColors.red),
-        buildButton(() {
-          showModalBottomSheet(
-              context: context,
-              builder: (buildContext) =>
-                  PaymentBottomSheet(adUnit.calculateTotalCost()));
+        buildButton(() async{
+    if(await adUnitsImageLoader.doesThisAdUnitHasAnAdImage(adUnit)) {
+      showModalBottomSheet(
+          context: context,
+          builder: (buildContext) => PaymentBottomSheet(adUnit));
+    }
         }, "Proceed", AppColors.green),
+
       ],
     );
   }
@@ -245,12 +283,13 @@ class CheckOutAdvertisingUnitsPageState
     );
   }
 
-  Future loadImageForThisAdvertisingUnit(AdvertisingUnit adUnit) async {
-    adUnitsImageLoader.loadImageForThisAdvertisingUnit(adUnit, (image) {
+  Future<String> loadImageForThisAdvertisingUnit(AdvertisingUnit adUnit) async {
+    String imagePath =  await adUnitsImageLoader.loadImageForThisAdvertisingUnit(adUnit, (image) {
       showDialog(
           context: context,
           builder: (context) => buildImageDialog(image, adUnit));
     });
+    return imagePath;
   }
 
   Dialog buildImageDialog(image, adUnit) {

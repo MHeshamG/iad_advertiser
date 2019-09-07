@@ -28,8 +28,10 @@ dependencies:
   provider: ^3.1.0
   flutter_datetime_picker: ^1.2.6
   image_picker:
+  file_picker: ^1.4.0+1
   firebase_auth: ^0.14.0
   cloud_firestore: ^0.12.9+3
+  firebase_storage: ^3.0.6
 
 dev_dependencies:
   flutter_test:

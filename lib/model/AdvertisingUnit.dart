@@ -9,6 +9,7 @@ class AdvertisingUnit {
 
   AdvertisingUnit(this.adTimeInterval) {
     advertisingChannels = [];
+    ad = Ad();
   }
 
   @override
@@ -18,22 +19,35 @@ class AdvertisingUnit {
 
   int getNumberOfBillboards() => advertisingChannels.length;
 
-
   double calculateTotalCost() {
     double totalCost = 0;
-    totalCost =  advertisingChannels.fold(totalCost, (totalCost,advertisingChannel)=>totalCost+=adTimeInterval.calculateTotalHours()*advertisingChannel.calculateCost());
+    totalCost = advertisingChannels.fold(
+        totalCost,
+        (totalCost, advertisingChannel) => totalCost +=
+            adTimeInterval.calculateTotalHours() *
+                advertisingChannel.calculateCost());
     return totalCost;
   }
 
   String getAdTimeIntervalStarting() {
     String startingDateTime = adTimeInterval.adStartingDateTime.toString();
-    return startingDateTime.split(" ").first +" "+
-        startingDateTime.split(" ").last.split(".").first.substring(0,5);
+    return startingDateTime.split(" ").first +
+        " " +
+        startingDateTime.split(" ").last.split(".").first.substring(0, 5);
   }
 
   String getAdTimeIntervalEnding() {
     String endingDateTime = adTimeInterval.adEndingDateTime.toString();
-    return endingDateTime.split(" ").first +" "+
-        endingDateTime.split(" ").last.split(".").first.substring(0,5);
+    return endingDateTime.split(" ").first +
+        " " +
+        endingDateTime.split(" ").last.split(".").first.substring(0, 5);
+  }
+
+  Map<String, dynamic> getAdUnitInJsonFormat() {
+    return {
+      "start_datetime":
+          adTimeInterval.adStartingDateTime,
+      "end_datetime": adTimeInterval.adEndingDateTime
+    };
   }
 }

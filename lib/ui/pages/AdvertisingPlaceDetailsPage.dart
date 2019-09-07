@@ -56,12 +56,14 @@ class AdvertisingPlaceDetailsPage extends StatelessWidget {
                             child: Container(
                                 height: 200.0,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    gradient: LinearGradient(colors: [
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  gradient: LinearGradient(
+                                    colors: [
                                       AppColors.pink,
-                                     AppColors.appThemeColor,
-
-                                    ])),
+                                      AppColors.appThemeColor,
+                                    ],
+                                  ),
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -80,13 +82,13 @@ class AdvertisingPlaceDetailsPage extends StatelessWidget {
                                           MainAxisAlignment.spaceAround,
                                       children: <Widget>[
                                         buildInfoText(
-                                            advertisingChannel.numberOfVisitorsPerDay,
+                                            advertisingChannel
+                                                .numberOfVisitorsPerDay,
                                             "Visitors"),
                                         buildInfoText(
                                             advertisingChannel
                                                 .advertisingBillboards.length,
                                             "Billboards"),
-
                                         buildInfoText(
                                             advertisingChannel.numberOfAds,
                                             "Ads"),
@@ -97,29 +99,36 @@ class AdvertisingPlaceDetailsPage extends StatelessWidget {
                           ),
                           Expanded(
                             child: ListView.builder(
-                              itemCount:
-                                  advertisingChannel.advertisingBillboards.length,
+                              itemCount: advertisingChannel
+                                  .advertisingBillboards.length,
                               itemBuilder: (context, index) => Card(
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(10.0)),
                                     child: ListTile(
-                                      onTap: (){
-                                        Navigator.pushNamed(context, Routes.BILLBOARD_PAGE,arguments: advertisingChannel.advertisingBillboards[index]);
-                                      },
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                              context, Routes.BILLBOARD_PAGE,
+                                              arguments: advertisingChannel
+                                                      .advertisingBillboards[
+                                                  index]);
+                                        },
                                         leading:
                                             AdvertisingChannelTypeMapperToIcon
                                                 .map(advertisingChannel
-                                                    .advertisingBillboards[index]
+                                                    .advertisingBillboards[
+                                                        index]
                                                     .type),
                                         title: Text(advertisingChannel
                                             .advertisingBillboards[index].name),
                                         subtitle: Text(advertisingChannel
-                                            .advertisingBillboards[index].description),
+                                            .advertisingBillboards[index]
+                                            .description),
                                         trailing:
-                                            AdvertisingChannelTagMapperToIcon.map(
-                                                advertisingChannel
-                                                    .advertisingBillboards[index]
+                                            AdvertisingChannelTagMapperToIcon
+                                                .map(advertisingChannel
+                                                    .advertisingBillboards[
+                                                        index]
                                                     .tag)),
                                   ),
                             ),
@@ -130,7 +139,7 @@ class AdvertisingPlaceDetailsPage extends StatelessWidget {
     });
   }
 
-  Column buildInfoText(int num, String txt) {
+  Widget buildInfoText(int num, String txt) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[

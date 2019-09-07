@@ -2,7 +2,7 @@ class AdTimeInterval {
   DateTime adStartingDateTime;
   DateTime adEndingDateTime;
 
-  AdTimeInterval(adStartingDateTime, adEndingDateTime);
+  AdTimeInterval(this.adStartingDateTime, this.adEndingDateTime);
 
   AdTimeInterval.withoutInit();
 
@@ -23,14 +23,14 @@ class AdTimeInterval {
   }
 
   bool overlapsWith(AdTimeInterval adTimeInterval) {
-    return doesDatesOverlap(adTimeInterval) && doesTimesOverlap(adTimeInterval);
+    return (doesDatesOverlap(adTimeInterval) &&
+        doesTimesOverlap(adTimeInterval));
   }
 
   bool doesTimesOverlap(AdTimeInterval adTimeInterval) {
-    bool overlaps = (
-        (adStartingDateTime.hour < adTimeInterval.adEndingDateTime.hour &&
+    bool overlaps =
+        ((adStartingDateTime.hour < adTimeInterval.adEndingDateTime.hour &&
             adTimeInterval.adStartingDateTime.hour < adEndingDateTime.hour));
-
     return overlaps;
   }
 
@@ -48,16 +48,18 @@ class AdTimeInterval {
         adTimeInterval.adEndingDateTime.month,
         adTimeInterval.adEndingDateTime.day);
 
-    bool overlaps = ((thisAdStartingDate.isBefore(paramAdEndingDate) && paramAdStartingDate.isBefore(thisAdEndingDate)));
+    bool overlaps = ((thisAdStartingDate.isBefore(paramAdEndingDate) &&
+        paramAdStartingDate.isBefore(thisAdEndingDate)));
 
     return overlaps;
   }
 
-  int calculateTotalHours(){
+  int calculateTotalHours() {
     DateTime thisAdStartingDate = DateTime(adStartingDateTime.year,
         adStartingDateTime.month, adStartingDateTime.day);
     DateTime thisAdEndingDate = DateTime(
         adEndingDateTime.year, adEndingDateTime.month, adEndingDateTime.day);
-    return (thisAdEndingDate.difference(thisAdStartingDate).inDays+1)*(adEndingDateTime.hour - adStartingDateTime.hour);
+    return (thisAdEndingDate.difference(thisAdStartingDate).inDays + 1) *
+        (adEndingDateTime.hour - adStartingDateTime.hour);
   }
 }

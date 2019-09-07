@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iad_advertiser/Locator.dart';
+import 'package:iad_advertiser/core/AdvertisingPlatform.dart';
+import 'package:iad_advertiser/core/AdvertisingUnitsHandler.dart';
 import 'package:iad_advertiser/core/PaymentService.dart';
+import 'package:iad_advertiser/core/view_models/PaymentBottomSheetViewModel.dart';
+import 'package:iad_advertiser/core/view_models/ViewState.dart';
+import 'package:iad_advertiser/model/AdvertisingUnit.dart';
 import 'package:iad_advertiser/model/payment/PaymentMethod.dart';
 import 'package:iad_advertiser/model/payment/PaymentType.dart';
 import 'package:iad_advertiser/navigation/Routes.dart';
+import 'package:iad_advertiser/ui/BaseView.dart';
 import 'package:iad_advertiser/ui/ui_utils/AppColors.dart';
 import 'package:provider/provider.dart';
 
 class PaymentBottomSheet extends StatelessWidget {
-  double totalCost;
+  AdvertisingUnit advertisingUnit;
+  bool isPayButtonPressed = false;
 
-  PaymentBottomSheet(this.totalCost);
+  PaymentBottomSheet(this.advertisingUnit);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +45,7 @@ class PaymentBottomSheet extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      totalCost.toString(),
+                      advertisingUnit.calculateTotalCost().toString(),
                       style: TextStyle(
                           fontSize: 48.0,
                           fontWeight: FontWeight.w300,
@@ -75,16 +82,36 @@ class PaymentBottomSheet extends StatelessWidget {
                   ),
                 ),
               ),
-              FlatButton(
-                onPressed: () {},
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0)),
-                color: AppColors.light_green,
-                child: Text("Pay",
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w300,
-                        color: AppColors.appThemeColor)),
+              BaseView(
+                builder: (BuildContext context,
+                        PaymentBottomSheetViewModel viewModel, Widget child) =>
+                    viewModel.state == ViewState.BUSY
+                        ? CircularProgressIndicator()
+                        : isPayButtonPressed
+                            ? Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Your Advertising unit is reserved and ready to go live",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w200,
+                                      color: AppColors.light_green),
+                                ),
+                              )
+                            : FlatButton(
+                                onPressed: () {
+                                  isPayButtonPressed = true;
+                                  viewModel.payAndReserve(advertisingUnit);
+
+                                },
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0)),
+                                color: AppColors.light_green,
+                                child: Text("Pay",
+                                    style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w300,
+                                        color: AppColors.appThemeColor)),
+                              ),
               )
             ],
           ),
