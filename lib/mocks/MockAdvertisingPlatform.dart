@@ -85,7 +85,7 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
   }
 
   @override
-  Future<bool> reserveAdvertisingChannel(AdvertisingUnit advertisingUnit) {
+  Future<bool> reserveAdvertisingChannel(AdvertisingUnit advertisingUnit,String userId) {
     // TODO: implement reserveAdvertisingChannel
     return null;
   }

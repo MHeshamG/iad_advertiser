@@ -77,22 +77,27 @@ class AdvertisingPlaceDetailsPage extends StatelessWidget {
                                             fontWeight: FontWeight.w200),
                                       ),
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: <Widget>[
-                                        buildInfoText(
-                                            advertisingChannel
-                                                .numberOfVisitorsPerDay,
-                                            "Visitors"),
-                                        buildInfoText(
-                                            advertisingChannel
-                                                .advertisingBillboards.length,
-                                            "Billboards"),
-                                        buildInfoText(
-                                            advertisingChannel.numberOfAds,
-                                            "Ads"),
-                                      ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: <Widget>[
+                                          buildInfoText(
+                                              advertisingChannel
+                                                  .numberOfVisitorsPerDay,
+                                              "Visitor"),
+                                          buildDivider(),
+                                          buildInfoText(
+                                              advertisingChannel
+                                                  .advertisingBillboards.length,
+                                              "Billboards"),
+                                          buildDivider(),
+                                          buildInfoText(
+                                              advertisingChannel.numberOfAds,
+                                              "Ads"),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 )),
@@ -101,42 +106,40 @@ class AdvertisingPlaceDetailsPage extends StatelessWidget {
                             child: ListView.builder(
                               itemCount: advertisingChannel
                                   .advertisingBillboards.length,
-                              itemBuilder: (context, index) => Card(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    child: ListTile(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                              context, Routes.BILLBOARD_PAGE,
-                                              arguments: advertisingChannel
-                                                      .advertisingBillboards[
-                                                  index]);
-                                        },
-                                        leading:
-                                            AdvertisingChannelTypeMapperToIcon
-                                                .map(advertisingChannel
-                                                    .advertisingBillboards[
-                                                        index]
-                                                    .type),
-                                        title: Text(advertisingChannel
-                                            .advertisingBillboards[index].name),
-                                        subtitle: Text(advertisingChannel
-                                            .advertisingBillboards[index]
-                                            .description),
-                                        trailing:
-                                            AdvertisingChannelTagMapperToIcon
-                                                .map(advertisingChannel
-                                                    .advertisingBillboards[
-                                                        index]
-                                                    .tag)),
-                                  ),
+                              itemBuilder: (context, index) =>
+                                  buildBillboardListItem(context, index),
                             ),
                           ),
                         ],
                       ),
               )));
     });
+  }
+
+  Card buildBillboardListItem(BuildContext context, int index) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      child: ListTile(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.BILLBOARD_PAGE,
+                arguments: advertisingChannel.advertisingBillboards[index]);
+          },
+          leading: AdvertisingChannelTypeMapperToIcon.map(
+              advertisingChannel.advertisingBillboards[index].type),
+          title: Text(advertisingChannel.advertisingBillboards[index].name),
+          subtitle:
+              Text(advertisingChannel.advertisingBillboards[index].description),
+          trailing: AdvertisingChannelTagMapperToIcon.map(
+              advertisingChannel.advertisingBillboards[index].tag)),
+    );
+  }
+
+  Container buildDivider() {
+    return Container(
+      height: 50,
+      width: 0.5,
+      color: Colors.white.withOpacity(0.5),
+    );
   }
 
   Widget buildInfoText(int num, String txt) {

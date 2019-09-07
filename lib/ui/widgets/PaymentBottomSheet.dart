@@ -7,6 +7,7 @@ import 'package:iad_advertiser/core/PaymentService.dart';
 import 'package:iad_advertiser/core/view_models/PaymentBottomSheetViewModel.dart';
 import 'package:iad_advertiser/core/view_models/ViewState.dart';
 import 'package:iad_advertiser/model/AdvertisingUnit.dart';
+import 'package:iad_advertiser/model/User.dart';
 import 'package:iad_advertiser/model/payment/PaymentMethod.dart';
 import 'package:iad_advertiser/model/payment/PaymentType.dart';
 import 'package:iad_advertiser/navigation/Routes.dart';
@@ -100,7 +101,7 @@ class PaymentBottomSheet extends StatelessWidget {
                             : FlatButton(
                                 onPressed: () {
                                   isPayButtonPressed = true;
-                                  viewModel.payAndReserve(advertisingUnit);
+                                  viewModel.payAndReserve(advertisingUnit,Provider.of<User>(context).id);
 
                                 },
                                 shape: RoundedRectangleBorder(

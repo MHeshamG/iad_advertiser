@@ -14,7 +14,7 @@ import 'package:iad_advertiser/validators/UserCredentialsValidator.dart';
 class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  static final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {

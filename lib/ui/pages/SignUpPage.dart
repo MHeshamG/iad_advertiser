@@ -1,114 +1,149 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iad_advertiser/core/view_models/SignUpPageViewModel.dart';
+import 'package:iad_advertiser/core/view_models/ViewState.dart';
+import 'package:iad_advertiser/model/User.dart';
+import 'package:iad_advertiser/navigation/Routes.dart';
+import 'package:iad_advertiser/ui/BaseView.dart';
 import 'package:iad_advertiser/ui/ui_utils/AppColors.dart';
 import 'package:iad_advertiser/ui/widgets/TextInputWidget.dart';
 import 'package:iad_advertiser/validators/UserCredentialsValidator.dart';
+import 'package:path/path.dart';
+class SignUpPage extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() =>SignUpPageState();
 
-class SignUpPage extends StatelessWidget {
+}
+class SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  static final _SignUpformKey = GlobalKey<FormState>();
+  bool isSignUpButtonPressed = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 300,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [AppColors.light_purple, AppColors.darkPurple])),
-          ),
-          Container(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  elevation: 4.0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0)),
-                  child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    height: 580.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(top: 32.0, bottom: 4.0),
-                          child: Text(
-                            "SIGNUP",
-                            style: TextStyle(
-                                color: AppColors.appThemeColor, fontSize: 24.0),
+    return BaseView(
+      builder:
+          (BuildContext context, SignUpPageViewModel viewModel, Widget child) =>
+          Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.white,
+            body: Stack(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
+                  height: 300,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            AppColors.light_purple,
+                            AppColors.darkPurple
+                          ])),
+                ),
+                Container(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        elevation: 4.0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0)),
+                        child: Container(
+                          padding: EdgeInsets.all(8.0),
+                          height: 580.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 32.0, bottom: 4.0),
+                                child: Text(
+                                  "SIGNUP",
+                                  style: TextStyle(
+                                      color: AppColors.appThemeColor,
+                                      fontSize: 24.0),
+                                ),
+                              ),
+                              Container(
+                                height: 1,
+                                width: 100,
+                                color: AppColors.appThemeColor,
+                                child: Divider(),
+                              ),
+                              buildSignupForm(context, viewModel),
+                              viewModel.state == ViewState.BUSY ?
+                              CircularProgressIndicator() : Container()
+                            ],
                           ),
                         ),
-                        Container(
-                          height: 1,
-                          width: 100,
-                          color: AppColors.appThemeColor,
-                          child: Divider(),
-                        ),
-                        buildSignupForm(),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
-        ],
-      ),
     );
   }
 
-  Widget buildSignupForm() {
+  Widget buildSignupForm(BuildContext context, SignUpPageViewModel viewModel) {
     return Form(
-      key: _formKey,
+      key: _SignUpformKey,
       child: Column(
         children: <Widget>[
           TextInputWidget(
               _emailController,
               "Email",
               Icons.email,
-              (emailString) =>
-                  UserCredentialsValidator.isNotValidEmailFormat(emailString),false),
+                  (emailString) =>
+                  UserCredentialsValidator.isNotValidEmailFormat(emailString),
+              false),
           TextInputWidget(
               _passwordController,
               "Password",
               Icons.lock,
-              (passwordString) =>
+                  (passwordString) =>
                   UserCredentialsValidator.isNotValidPasswordFormat(
-                      passwordString),true),
+                      passwordString),
+              true),
           TextInputWidget(
               _phoneController,
               "Phone",
               Icons.phone_android,
-              (phoneString) =>
-                  UserCredentialsValidator.isNotValidPhoneFormat(phoneString),false),
+                  (phoneString) =>
+                  UserCredentialsValidator.isNotValidPhoneFormat(phoneString),
+              false),
           TextInputWidget(
               _addressController,
               "Address",
               Icons.location_city,
-              (addressString) => UserCredentialsValidator.isNotValidAddressFormat(
-                  addressString),false),
+                  (addressString) =>
+                  UserCredentialsValidator.isNotValidAddressFormat(
+                      addressString),
+              false),
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: RaisedButton(
-              onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  // If the form is valid, display a Snackbar.
-                  print("valid");
+              onPressed: () async {
+                if (_SignUpformKey.currentState.validate()) {
+                  isSignUpButtonPressed = true;
+                  User newUser = User.createUserWithWholeData(
+                      _emailController.text,
+                      _phoneController.text,
+                      _addressController.text);
+                  bool success = await viewModel.signup(newUser, _passwordController.text);
+                  if(success)
+                    Navigator.pushNamed(context, Routes.HOME);
                 }
               },
               color: AppColors.appThemeColor,

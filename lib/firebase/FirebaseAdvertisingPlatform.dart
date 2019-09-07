@@ -69,31 +69,33 @@ class FirebaseAdvertisingPlatform extends AdvertisingPlatform {
     bool isAvailable =
         checkLocalyIfBillboardReserved(billboardId, adTimeInterval);
     if (!isAvailable) return isAvailable;
-    isAvailable = await checkThroughAdvertisingPlatformIfThisBillboardIsAvailable(billboardId, adTimeInterval);
-    print("isAvailable: "+isAvailable.toString());
+    isAvailable =
+        await checkThroughAdvertisingPlatformIfThisBillboardIsAvailable(
+            billboardId, adTimeInterval);
+    print("isAvailable: " + isAvailable.toString());
     return isAvailable;
   }
 
-  Future<bool> checkThroughAdvertisingPlatformIfThisBillboardIsAvailable(String billboardId, AdTimeInterval adTimeInterval) async {
+  Future<bool> checkThroughAdvertisingPlatformIfThisBillboardIsAvailable(
+      String billboardId, AdTimeInterval adTimeInterval) async {
     bool isAvailable = true;
     QuerySnapshot snapshot = await firestoreReference
         .collection("AdUnits")
         .where("billboard_id", isEqualTo: billboardId)
         .getDocuments();
-       for(final adUnitDoc in snapshot.documents)  {
-         DocumentSnapshot adDoc = await firestoreReference
-            .collection("Ads")
-            .document(adUnitDoc["ad_id"])
-            .get();
-          AdTimeInterval thisAdTimeInterval =
-              AdTimeInterval(adDoc["start_datetime"].toDate(), adDoc["end_datetime"].toDate());
-          print(thisAdTimeInterval.overlapsWith(adTimeInterval));
-          if (thisAdTimeInterval.overlapsWith(adTimeInterval)) {
-            isAvailable = false;
-
-          }
-        }
-       return isAvailable;
+    for (final adUnitDoc in snapshot.documents) {
+      DocumentSnapshot adDoc = await firestoreReference
+          .collection("Ads")
+          .document(adUnitDoc["ad_id"])
+          .get();
+      AdTimeInterval thisAdTimeInterval = AdTimeInterval(
+          adDoc["start_datetime"].toDate(), adDoc["end_datetime"].toDate());
+      print(thisAdTimeInterval.overlapsWith(adTimeInterval));
+      if (thisAdTimeInterval.overlapsWith(adTimeInterval)) {
+        isAvailable = false;
+      }
+    }
+    return isAvailable;
   }
 
   bool checkLocalyIfBillboardReserved(
@@ -105,11 +107,29 @@ class FirebaseAdvertisingPlatform extends AdvertisingPlatform {
   }
 
   @override
-  Future<bool> reserveAdvertisingChannel(AdvertisingUnit advertisingUnit) async{
-    String adImageUrl = await locator<AdImageUploader>().uploadImage(advertisingUnit.ad.imageFilePath, "name.jpg");
-    Map<String,dynamic> adDataJson =  advertisingUnit.getAdUnitInJsonFormat();
-    adDataJson.putIfAbsent("ad_image_url", ()=>adImageUrl);
-    DocumentReference documentReference = await firestoreReference.collection("Ads").add(adDataJson);
-    return documentReference.documentID!=null && documentReference.documentID.isNotEmpty;
+  Future<bool> reserveAdvertisingChannel(
+      AdvertisingUnit advertisingUnit,String userId) async {
+    bool reserved = false;
+    String adImageUrl = await locator<AdImageUploader>()
+        .uploadImage(advertisingUnit.ad.imageFilePath, "name.jpg");
+    Map<String, dynamic> adDataJson = advertisingUnit.getAdUnitInJsonFormat();
+    adDataJson.putIfAbsent("ad_image_url", () => adImageUrl);
+    adDataJson.putIfAbsent("user_id", () => userId);
+    DocumentReference documentReference =
+        await firestoreReference.collection("Ads").add(adDataJson);
+    String adId = documentReference.documentID;
+    if (adId != null && adId.isNotEmpty) {
+      reserved = true;
+      await AddBillbordsIdsWithAdIdInAdUnitsJoinTable(advertisingUnit, adId);
+    }
+    return reserved;
+  }
+
+  Future AddBillbordsIdsWithAdIdInAdUnitsJoinTable(AdvertisingUnit advertisingUnit, String adId) async {
+    for (AdvertisingChannel billboard in advertisingUnit.advertisingChannels)
+      await firestoreReference.collection("AdUnits").add({
+        "ad_id": adId,
+        "billboard_id": billboard.id
+      });
   }
 }

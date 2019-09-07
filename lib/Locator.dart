@@ -3,9 +3,10 @@ import 'package:iad_advertiser/core/AdImageUploader.dart';
 import 'package:iad_advertiser/core/AdvertisingPlatform.dart';
 import 'package:iad_advertiser/core/AdvertisingUnitsHandler.dart';
 import 'package:iad_advertiser/core/AuthenticationService.dart';
-import 'package:iad_advertiser/core/MockAdvertisingPlatform.dart';
+import 'package:iad_advertiser/core/view_models/SignUpPageViewModel.dart';
+import 'package:iad_advertiser/firebase/storage/FirestorageAdImageUploader.dart';
+import 'package:iad_advertiser/mocks/MockAdvertisingPlatform.dart';
 import 'package:iad_advertiser/core/PaymentService.dart';
-import 'package:iad_advertiser/core/FirestorageAdImageUploader.dart';
 import 'package:iad_advertiser/core/view_models/BillboardPageBottomSheetViewModel.dart';
 import 'package:iad_advertiser/core/view_models/CheckoutAdvertisingUnitsViewModel.dart';
 import 'package:iad_advertiser/core/view_models/CompositeAdvertisingChannelDetailsViewModel.dart';
@@ -14,7 +15,7 @@ import 'package:iad_advertiser/core/view_models/LoginViewModel.dart';
 import 'package:iad_advertiser/core/view_models/PaymentBottomSheetViewModel.dart';
 import 'package:iad_advertiser/core/view_models/WalletPageViewModel.dart';
 import 'package:iad_advertiser/firebase/FirebaseAdvertisingPlatform.dart';
-import 'package:iad_advertiser/firebase/FirebaseAuthenticationService.dart';
+import 'package:iad_advertiser/firebase/authentication/FirebaseAuthenticationService.dart';
 
   GetIt locator = GetIt();
 
@@ -32,5 +33,6 @@ import 'package:iad_advertiser/firebase/FirebaseAuthenticationService.dart';
     locator.registerFactory(()=>CheckOutAdvertisingUnitsViewModel());
     locator.registerFactory(()=>WalletPageViewModel());
     locator.registerFactory(()=>LoginViewModel());
+    locator.registerFactory(()=>SignUpPageViewModel());
     locator.registerFactory(()=>PaymentBottomSheetViewModel());
   }

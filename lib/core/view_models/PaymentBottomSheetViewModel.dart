@@ -11,9 +11,9 @@ import 'package:iad_advertiser/model/AdvertisingUnit.dart';
 class PaymentBottomSheetViewModel extends BaseViewModel {
   AdvertisingPlatform advertisingPlatform = locator<AdvertisingPlatform>();
 
-  void payAndReserve(AdvertisingUnit adUnit) async {
+  void payAndReserve(AdvertisingUnit adUnit,String userId) async {
     setState(ViewState.BUSY);
-    await advertisingPlatform.reserveAdvertisingChannel(adUnit);
+    await advertisingPlatform.reserveAdvertisingChannel(adUnit,userId);
     setState(ViewState.IDLE);
     removeAdvertisingUnitFromTheCheckoutList(adUnit);
   }
