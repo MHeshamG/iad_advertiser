@@ -25,11 +25,6 @@ class FirebaseAdvertisingPlatform extends AdvertisingPlatform {
   }
 
   @override
-  Future<List<AdvertisingUnit>> fetchAdvertisingHistory(User user) {
-    return null;
-  }
-
-  @override
   Future<List<AdvertisingChannel>> fetchAdvertisingPlaces() async {
     List<AdvertisingChannel> advertisingPlaces = [];
     await firestoreReference
@@ -108,16 +103,15 @@ class FirebaseAdvertisingPlatform extends AdvertisingPlatform {
 
   @override
   Future<bool> reserveAdvertisingChannel(
-      AdvertisingUnit advertisingUnit,String userId) async {
+      AdvertisingUnit advertisingUnit, String userId) async {
     bool reserved = false;
-    String adImageUrl = await locator<AdImageUploader>()
-        .uploadImage(advertisingUnit.ad.imageFilePath, "name.jpg");
+    String adImageUrl = await uploadAdImage(advertisingUnit, userId);
     Map<String, dynamic> adDataJson = advertisingUnit.getAdUnitInJsonFormat();
     adDataJson.putIfAbsent("ad_image_url", () => adImageUrl);
     adDataJson.putIfAbsent("user_id", () => userId);
-    DocumentReference documentReference =
+    DocumentReference newAd =
         await firestoreReference.collection("Ads").add(adDataJson);
-    String adId = documentReference.documentID;
+    String adId = newAd.documentID;
     if (adId != null && adId.isNotEmpty) {
       reserved = true;
       await AddBillbordsIdsWithAdIdInAdUnitsJoinTable(advertisingUnit, adId);
@@ -125,11 +119,31 @@ class FirebaseAdvertisingPlatform extends AdvertisingPlatform {
     return reserved;
   }
 
-  Future AddBillbordsIdsWithAdIdInAdUnitsJoinTable(AdvertisingUnit advertisingUnit, String adId) async {
-    for (AdvertisingChannel billboard in advertisingUnit.advertisingChannels)
-      await firestoreReference.collection("AdUnits").add({
-        "ad_id": adId,
-        "billboard_id": billboard.id
-      });
+  Future<String> uploadAdImage(
+      AdvertisingUnit advertisingUnit, String userId) async {
+    return await locator<AdImageUploader>()
+        .uploadImage(advertisingUnit.ad.imageFilePath, "$userId.jpg");
   }
+
+  Future AddBillbordsIdsWithAdIdInAdUnitsJoinTable(
+      AdvertisingUnit advertisingUnit, String adId) async {
+    for (AdvertisingChannel billboard in advertisingUnit.advertisingChannels)
+      await firestoreReference
+          .collection("AdUnits")
+          .add({"ad_id": adId, "billboard_id": billboard.id});
+  }
+
+  @override
+  Future<List<AdvertisingUnit>> fetchAdsForThisUser(User user) async {
+    List<DocumentSnapshot> adsForThisUser;
+    List<AdvertisingUnit> ads = List<AdvertisingUnit>();
+    adsForThisUser = (await firestoreReference
+        .collection("Ads").where("user_id",isEqualTo: user.id)
+        .getDocuments()).documents;
+    for(DocumentSnapshot adDoc in adsForThisUser){
+      ads.add(AdvertisingUnit.fromJson(adDoc.data));
+    }
+    return ads;
+  }
+
 }

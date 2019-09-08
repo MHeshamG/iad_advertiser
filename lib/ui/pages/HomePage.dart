@@ -29,8 +29,8 @@ class HomePage extends StatelessWidget {
               ),
               actions: <Widget>[
                 FlatButton(
-                  onPressed: (){
-                    Navigator.pushNamed(context,Routes.CHECKOUT_PAGE);
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.CHECKOUT_PAGE);
                   },
                   child: Container(
                     width: 30.0,
@@ -43,6 +43,26 @@ class HomePage extends StatelessWidget {
                 )
               ],
               elevation: 1.0,
+            ),
+            drawer: Drawer(
+              child: ListView(
+                // Important: Remove any padding from the ListView.
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  DrawerHeader(
+                    child: Text('Drawer Header'),
+                    decoration: BoxDecoration(
+                      color: AppColors.appThemeColor,
+                    ),
+                  ),
+                  ListTile(
+                    title: Text('Your Ads'),
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.ADS_PAGE);
+                    },
+                  ),
+                ],
+              ),
             ),
             body: Container(
               color: Colors.white,
@@ -68,19 +88,20 @@ class HomePage extends StatelessWidget {
                                   clipBehavior: Clip.antiAliasWithSaveLayer,
                                   child: Column(
                                     children: <Widget>[
-                                      Image.network(viewModel.placesToAdvertiseAt[index].imageSrc)
-                                          ,
+                                      Image.network(viewModel
+                                          .placesToAdvertiseAt[index].imageSrc),
                                       Container(
                                         color: AppColors.appThemeColor,
                                         child: ListTile(
                                           leading:
                                               AdvertisingChannelTypeMapperToIcon
                                                   .map(viewModel
-                                                      .placesToAdvertiseAt[index]
+                                                      .placesToAdvertiseAt[
+                                                          index]
                                                       .type),
                                           title: Text(
-                                            viewModel
-                                                .placesToAdvertiseAt[index].name,
+                                            viewModel.placesToAdvertiseAt[index]
+                                                .name,
                                             style: TextStyle(
                                               fontSize: 18.0,
                                               color: Colors.white,
@@ -88,7 +109,8 @@ class HomePage extends StatelessWidget {
                                             ),
                                           ),
                                           subtitle: Text(
-                                              viewModel.placesToAdvertiseAt[index]
+                                              viewModel
+                                                  .placesToAdvertiseAt[index]
                                                   .description,
                                               style: TextStyle(
                                                 color: Colors.white,

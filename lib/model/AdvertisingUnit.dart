@@ -5,6 +5,8 @@ import 'package:iad_advertiser/model/AdvertisingChannel.dart';
 class AdvertisingUnit {
   List<AdvertisingChannel> advertisingChannels;
   AdTimeInterval adTimeInterval;
+  double _cost = 0;
+  int _numberOfBillboards = 0;
   Ad ad;
 
   AdvertisingUnit(this.adTimeInterval) {
@@ -12,42 +14,66 @@ class AdvertisingUnit {
     ad = Ad();
   }
 
+  AdvertisingUnit.fromJson(Map<String, dynamic>adUnitData) {
+    _cost = adUnitData["cost"];
+    _numberOfBillboards = adUnitData["number_of_billboards"];
+    adTimeInterval =
+        AdTimeInterval(adUnitData["start_datetime"].toDate(), adUnitData["end_datetime"].toDate());
+    ad = Ad();
+  }
+
   @override
   String toString() {
-    return 'AdvertisingUnit{advertisingChannels: ${advertisingChannels.length}, adTimeInterval: ${adTimeInterval.toString()}}';
+    return 'AdvertisingUnit{advertisingChannels: ${advertisingChannels
+        .length}, adTimeInterval: ${adTimeInterval.toString()}}';
   }
 
-  int getNumberOfBillboards() => advertisingChannels.length;
+  int getNumberOfBillboards() => _numberOfBillboards ==0?advertisingChannels.length:_numberOfBillboards;
 
-  double calculateTotalCost() {
-    double totalCost = 0;
-    totalCost = advertisingChannels.fold(
-        totalCost,
-        (totalCost, advertisingChannel) => totalCost +=
-            adTimeInterval.calculateTotalHours() *
-                advertisingChannel.calculateCost());
-    return totalCost;
-  }
 
-  String getAdTimeIntervalStarting() {
-    String startingDateTime = adTimeInterval.adStartingDateTime.toString();
-    return startingDateTime.split(" ").first +
-        " " +
-        startingDateTime.split(" ").last.split(".").first.substring(0, 5);
-  }
+  double get cost =>
+      _cost == 0 ? advertisingChannels.fold(
+          _cost,
+              (totalCost, advertisingChannel) =>
+          totalCost +=
+              adTimeInterval.calculateTotalHours() *
+                  advertisingChannel.calculateCost()) : _cost;
 
-  String getAdTimeIntervalEnding() {
-    String endingDateTime = adTimeInterval.adEndingDateTime.toString();
-    return endingDateTime.split(" ").first +
-        " " +
-        endingDateTime.split(" ").last.split(".").first.substring(0, 5);
-  }
 
-  Map<String, dynamic> getAdUnitInJsonFormat() {
-    return {
-      "start_datetime":
-          adTimeInterval.adStartingDateTime,
-      "end_datetime": adTimeInterval.adEndingDateTime
-    };
-  }
+String getAdTimeIntervalStarting() {
+  String startingDateTime = adTimeInterval.adStartingDateTime.toString();
+  return startingDateTime
+      .split(" ")
+      .first +
+      " " +
+      startingDateTime
+          .split(" ")
+          .last
+          .split(".")
+          .first
+          .substring(0, 5);
 }
+
+String getAdTimeIntervalEnding() {
+  String endingDateTime = adTimeInterval.adEndingDateTime.toString();
+  return endingDateTime
+      .split(" ")
+      .first +
+      " " +
+      endingDateTime
+          .split(" ")
+          .last
+          .split(".")
+          .first
+          .substring(0, 5);
+}
+
+Map<String, dynamic> getAdUnitInJsonFormat() {
+  return {
+    "start_datetime":
+    adTimeInterval.adStartingDateTime,
+    "end_datetime": adTimeInterval.adEndingDateTime,
+    "cost":cost,
+    "number_of_billboards":getNumberOfBillboards()
+  };
+}}

@@ -9,5 +9,6 @@ abstract class AdvertisingPlatform{
   Future<bool> isBillboardAvailable(String billboardId, AdTimeInterval adtimeInterval);
   Future<bool> reserveAdvertisingChannel(AdvertisingUnit advertisingUnit,String userId);
   Future<bool> cancelReservation(AdvertisingUnit advertisingUnit);
-  Future<List<AdvertisingUnit>> fetchAdvertisingHistory(User user);
+  Future<List<AdvertisingUnit>> fetchAdsForThisUser(User user);
+
 }

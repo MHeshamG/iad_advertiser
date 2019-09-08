@@ -3,9 +3,12 @@ import 'package:iad_advertiser/core/AdImageUploader.dart';
 import 'package:iad_advertiser/core/AdvertisingPlatform.dart';
 import 'package:iad_advertiser/core/AdvertisingUnitsHandler.dart';
 import 'package:iad_advertiser/core/AuthenticationService.dart';
+import 'package:iad_advertiser/core/view_models/AdsHistoryHandler.dart';
+import 'package:iad_advertiser/core/view_models/LiveAdsWidgetViewModel.dart';
+import 'package:iad_advertiser/core/view_models/PreviousAdsWidgetViewModel.dart';
 import 'package:iad_advertiser/core/view_models/SignUpPageViewModel.dart';
+import 'package:iad_advertiser/core/view_models/UpComingAdsWidgetViewModel.dart';
 import 'package:iad_advertiser/firebase/storage/FirestorageAdImageUploader.dart';
-import 'package:iad_advertiser/mocks/MockAdvertisingPlatform.dart';
 import 'package:iad_advertiser/core/PaymentService.dart';
 import 'package:iad_advertiser/core/view_models/BillboardPageBottomSheetViewModel.dart';
 import 'package:iad_advertiser/core/view_models/CheckoutAdvertisingUnitsViewModel.dart';
@@ -25,6 +28,7 @@ import 'package:iad_advertiser/firebase/authentication/FirebaseAuthenticationSer
     locator.registerLazySingleton<PaymentService>(()=>PaymentService());
     locator.registerLazySingleton<AuthenticationService>(()=>FirebaseAuthenticationService());
     locator.registerLazySingleton<AdImageUploader>(()=>FirestorageAdImageUploader());
+    locator.registerLazySingleton<AdsHistoryHandler>(()=>AdsHistoryHandler());
 
 
     locator.registerFactory(()=>HomePageViewModel());
@@ -35,4 +39,7 @@ import 'package:iad_advertiser/firebase/authentication/FirebaseAuthenticationSer
     locator.registerFactory(()=>LoginViewModel());
     locator.registerFactory(()=>SignUpPageViewModel());
     locator.registerFactory(()=>PaymentBottomSheetViewModel());
+    locator.registerFactory(()=>PreviousAdsWidgetViewModel());
+    locator.registerFactory(()=>LiveAdsWidgetViewModel());
+    locator.registerFactory(()=>UpComingAdsWidgetViewModel());
   }

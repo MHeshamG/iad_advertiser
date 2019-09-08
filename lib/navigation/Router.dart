@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iad_advertiser/model/Billboard.dart';
 import 'package:iad_advertiser/model/CompositeAdvertisingChannel.dart';
+import 'package:iad_advertiser/ui/pages/AdsPage.dart';
 import 'package:iad_advertiser/ui/pages/BillboardPage.dart';
 import 'package:iad_advertiser/ui/pages/CheckOutAdvertisingUnitsPage.dart';
 import 'package:iad_advertiser/ui/pages/AdvertisingPlaceDetailsPage.dart';
@@ -30,6 +31,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => CheckOutAdvertisingUnitsPage());
       case Routes.Wallet_PAGE:
         return MaterialPageRoute(builder: (_) => WalletPage());
+      case Routes.ADS_PAGE:
+        return MaterialPageRoute(builder: (_) => AdsPage());
 
       default:
         return MaterialPageRoute(

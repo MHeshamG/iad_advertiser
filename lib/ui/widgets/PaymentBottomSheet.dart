@@ -46,7 +46,7 @@ class PaymentBottomSheet extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      advertisingUnit.calculateTotalCost().toString(),
+                      advertisingUnit.cost.toString(),
                       style: TextStyle(
                           fontSize: 48.0,
                           fontWeight: FontWeight.w300,

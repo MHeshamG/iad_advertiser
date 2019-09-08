@@ -22,7 +22,7 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
 
 
   @override
-  Future<List<AdvertisingUnit>> fetchAdvertisingHistory(User user) {
+  Future<List<AdvertisingUnit>> fetchPreviousAds(User user) {
     // TODO: implement fetchAdvertisingHistory
     return null;
   }
@@ -99,5 +99,17 @@ class MockAdvertisingPlatform extends AdvertisingPlatform {
     Future.delayed(Duration(seconds: 1));
     completer.complete(isAvailable);
     return completer.future;
+  }
+
+  @override
+  Future<List<AdvertisingUnit>> fetchAdsForThisUser(User user) {
+    // TODO: implement fetchLiveAds
+    return null;
+  }
+
+  @override
+  Future<List<AdvertisingUnit>> fetchUpComingAds(User user) {
+    // TODO: implement fetchUpComingAds
+    return null;
   }
 }

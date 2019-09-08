@@ -8,7 +8,6 @@ import 'package:iad_advertiser/ui/BaseView.dart';
 import 'package:iad_advertiser/ui/ui_utils/AppColors.dart';
 import 'package:iad_advertiser/ui/widgets/TextInputWidget.dart';
 import 'package:iad_advertiser/validators/UserCredentialsValidator.dart';
-import 'package:path/path.dart';
 class SignUpPage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() =>SignUpPageState();
@@ -19,7 +18,7 @@ class SignUpPageState extends State<SignUpPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
-  static final _SignUpformKey = GlobalKey<FormState>();
+  static final _signUpformKey = GlobalKey<FormState>();
   bool isSignUpButtonPressed = false;
 
   @override
@@ -98,7 +97,7 @@ class SignUpPageState extends State<SignUpPage> {
 
   Widget buildSignupForm(BuildContext context, SignUpPageViewModel viewModel) {
     return Form(
-      key: _SignUpformKey,
+      key: _signUpformKey,
       child: Column(
         children: <Widget>[
           TextInputWidget(
@@ -135,7 +134,7 @@ class SignUpPageState extends State<SignUpPage> {
             padding: const EdgeInsets.all(24.0),
             child: RaisedButton(
               onPressed: () async {
-                if (_SignUpformKey.currentState.validate()) {
+                if (_signUpformKey.currentState.validate()) {
                   isSignUpButtonPressed = true;
                   User newUser = User.createUserWithWholeData(
                       _emailController.text,
