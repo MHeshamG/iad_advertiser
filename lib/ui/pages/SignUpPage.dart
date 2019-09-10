@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iad_advertiser/core/view_models/SignUpPageViewModel.dart';
 import 'package:iad_advertiser/core/view_models/ViewState.dart';
 import 'package:iad_advertiser/model/User.dart';
@@ -15,6 +14,7 @@ class SignUpPage extends StatefulWidget{
 }
 class SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -107,6 +107,13 @@ class SignUpPageState extends State<SignUpPage> {
                   (emailString) =>
                   UserCredentialsValidator.isNotValidEmailFormat(emailString),
               false),
+        TextInputWidget(
+            _nameController,
+            "Name",
+            Icons.account_circle,
+                (nameString) =>
+                UserCredentialsValidator.isNotValidNameFormat(nameString),
+            false),
           TextInputWidget(
               _passwordController,
               "Password",
@@ -138,6 +145,7 @@ class SignUpPageState extends State<SignUpPage> {
                   isSignUpButtonPressed = true;
                   User newUser = User.createUserWithWholeData(
                       _emailController.text,
+                      _nameController.text,
                       _phoneController.text,
                       _addressController.text);
                   bool success = await viewModel.signup(newUser, _passwordController.text);

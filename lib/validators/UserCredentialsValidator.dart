@@ -31,4 +31,11 @@ class UserCredentialsValidator {
       return false;
   }
 
+  static isNotValidNameFormat(String name) {
+    if (name.length<4)
+      return true;
+    else
+      return false;
+  }
+
 }

@@ -9,7 +9,7 @@ class UpComingAdsWidgetViewModel extends BaseViewModel {
   AdsHistoryHandler _adsHistoryHandler = locator<AdsHistoryHandler>();
   List<AdvertisingUnit> upComingAds;
 
-  void loadPreviousAds(User currentAuthorizedUser) async {
+  void loadUpComingAds(User currentAuthorizedUser) async {
     setState(ViewState.BUSY);
     upComingAds = await _adsHistoryHandler.loadUpComingAds(currentAuthorizedUser);
     setState(ViewState.IDLE);

@@ -12,4 +12,6 @@ class Routes {
       "/WalletPage";
   static const String ADS_PAGE =
       "/adsPage";
+  static const String PROFILE_PAGE =
+      "/ProfilePage";
 }

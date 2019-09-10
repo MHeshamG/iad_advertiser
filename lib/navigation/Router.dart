@@ -7,6 +7,7 @@ import 'package:iad_advertiser/ui/pages/CheckOutAdvertisingUnitsPage.dart';
 import 'package:iad_advertiser/ui/pages/AdvertisingPlaceDetailsPage.dart';
 import 'package:iad_advertiser/ui/pages/HomePage.dart';
 import 'package:iad_advertiser/ui/pages/LoginPage.dart';
+import 'package:iad_advertiser/ui/pages/ProfilePage.dart';
 import 'package:iad_advertiser/ui/pages/SignUpPage.dart';
 import 'package:iad_advertiser/ui/pages/WalletPage.dart';
 
@@ -33,6 +34,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => WalletPage());
       case Routes.ADS_PAGE:
         return MaterialPageRoute(builder: (_) => AdsPage());
+      case Routes.PROFILE_PAGE:
+        return MaterialPageRoute(builder: (_) => ProfilePage());
 
       default:
         return MaterialPageRoute(

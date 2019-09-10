@@ -3,7 +3,6 @@ import 'package:iad_advertiser/Locator.dart';
 import 'package:iad_advertiser/core/AuthenticationService.dart';
 import 'package:iad_advertiser/model/User.dart';
 import 'package:iad_advertiser/ui/pages/HomePage.dart';
-import 'package:iad_advertiser/ui/pages/LoginPage.dart';
 import 'package:provider/provider.dart';
 
 import 'navigation/Router.dart';
@@ -20,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User>(
+      initialData: User.createUserWithWholeData("mheshamg@gmail.com","Mohamed Hesham","01063784315","49 Juhayna Sq. ,October"),
       builder: (context)=>locator<AuthenticationService>().getCurrentAuthorizedUserStream(),
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.pink,
           canvasColor: Colors.transparent
         ),
-        home: LoginPage(),
+        home: HomePage(),
       ),
     );
   }
