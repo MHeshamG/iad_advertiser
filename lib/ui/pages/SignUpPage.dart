@@ -56,7 +56,7 @@ class SignUpPageState extends State<SignUpPage> {
                             borderRadius: BorderRadius.circular(8.0)),
                         child: Container(
                           padding: EdgeInsets.all(8.0),
-                          height: 580.0,
+                          height: 590.0,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             color: Colors.white,

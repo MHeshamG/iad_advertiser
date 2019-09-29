@@ -35,17 +35,18 @@ class FirebaseAuthenticationService extends AuthenticationService {
     FirebaseUser authorizedUser = (await _auth.createUserWithEmailAndPassword(
             email: user.email, password: password))
         .user;
-    Firestore.instance.collection("Users").add(user.toJsonFormat());
+    await Firestore.instance.collection("Users").add(user.toJsonFormat());
     currentUser = User(authorizedUser.email, authorizedUser.uid);
     currentUser = await getThisUserData(currentUser);
     currentAuthorizedUserStreamController.add(currentUser);
+    print("sigup result "+(authorizedUser.uid != null && authorizedUser.uid.isNotEmpty).toString());
     return authorizedUser.uid != null && authorizedUser.uid.isNotEmpty;
   }
 
   Future<User> getThisUserData(User currentUser) async {
-    DocumentSnapshot userDoc =
-        await _firestore.collection("Users").document(currentUser.id).get();
-    final userData = userDoc.data;
+    QuerySnapshot userSnapShot =
+        await _firestore.collection("Users").where("email",isEqualTo: currentUser.email).getDocuments();
+    final userData = userSnapShot.documents[0];
     currentUser.name = userData["name"];
     currentUser.address = userData["address"];
     currentUser.phone = userData["phone"];

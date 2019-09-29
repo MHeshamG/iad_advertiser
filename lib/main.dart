@@ -6,6 +6,7 @@ import 'package:iad_advertiser/ui/pages/HomePage.dart';
 import 'package:provider/provider.dart';
 
 import 'navigation/Router.dart';
+import 'ui/pages/LoginPage.dart';
 
 void main() {
   setup();
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.pink,
           canvasColor: Colors.transparent
         ),
-        home: HomePage(),
+        home: LoginPage(),
       ),
     );
   }

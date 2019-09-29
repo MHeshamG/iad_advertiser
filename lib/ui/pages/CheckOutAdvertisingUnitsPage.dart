@@ -35,6 +35,7 @@ class CheckOutAdvertisingUnitsPageState
             appBar: AppBar(
               backgroundColor: Colors.white,
               centerTitle: true,
+              iconTheme: IconThemeData(color: Colors.black),
               title: Text("CheckOut",
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.w300)),
