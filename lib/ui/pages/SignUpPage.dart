@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iad_advertiser/core/view_models/SignUpPageViewModel.dart';
+import 'package:iad_advertiser/core/view_models/SignUpScreenViewModel.dart';
 import 'package:iad_advertiser/core/view_models/ViewState.dart';
 import 'package:iad_advertiser/model/User.dart';
 import 'package:iad_advertiser/navigation/Routes.dart';

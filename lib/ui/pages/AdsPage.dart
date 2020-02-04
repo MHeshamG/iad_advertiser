@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:iad_advertiser/core/view_models/LiveAdsWidgetViewModel.dart';
-import 'package:iad_advertiser/core/view_models/PreviousAdsWidgetViewModel.dart';
-import 'package:iad_advertiser/core/view_models/UpComingAdsWidgetViewModel.dart';
+import 'package:iad_advertiser/core/view_models/your_ads_screen_view_models/LiveAdsWidgetViewModel.dart';
+import 'package:iad_advertiser/core/view_models/your_ads_screen_view_models/PreviousAdsWidgetViewModel.dart';
+import 'package:iad_advertiser/core/view_models/your_ads_screen_view_models/UpComingAdsWidgetViewModel.dart';
 import 'package:iad_advertiser/model/AdvertisingUnit.dart';
 import 'package:iad_advertiser/model/User.dart';
 import 'package:iad_advertiser/ui/ui_utils/AppColors.dart';
@@ -60,51 +60,26 @@ class AdsPageState extends State<AdsPage> {
     );
   }
 
-  Widget buildAdvertisingUnitsListView(List<AdvertisingUnit> previousAds) {
-    return ListView.builder(
-        itemCount: previousAds.length,
-        itemBuilder: (buildContext, index) =>
-            AdvertisingUnitsListItem(previousAds[index]));
-  }
+
 
   Widget loadCurrentYourAdsWidget(int currentTabIndex) {
     switch (_currentTabIndex) {
       case 0:
         return YourAdsWidget<PreviousAdsWidgetViewModel>(
             loadAds: (viewModel) {
-              viewModel.loadPreviousAds(Provider.of<User>(context));
-            },
-            buildAdvertisingUnitsListView: (viewModel) =>
-                viewModel.previousAds.isEmpty
-                    ? buildNoAdsToShowView()
-                    : buildAdvertisingUnitsListView(viewModel.previousAds));
+              viewModel.loadAds(Provider.of<User>(context));
+            });
       case 1:
         return YourAdsWidget<LiveAdsWidgetViewModel>(
             loadAds: (viewModel) {
-              viewModel.loadPreviousAds(Provider.of<User>(context));
-            },
-            buildAdvertisingUnitsListView: (viewModel) =>
-                viewModel.liveAds.isEmpty
-                    ? buildNoAdsToShowView()
-                    : buildAdvertisingUnitsListView(viewModel.liveAds));
+              viewModel.loadAds(Provider.of<User>(context));
+            });
 
       case 2:
         return YourAdsWidget<UpComingAdsWidgetViewModel>(
             loadAds: (viewModel) {
-              viewModel.loadUpComingAds(Provider.of<User>(context));
-            },
-            buildAdvertisingUnitsListView: (viewModel) =>
-                viewModel.upComingAds.isEmpty
-                    ? buildNoAdsToShowView()
-                    : buildAdvertisingUnitsListView(viewModel.upComingAds));
+              viewModel.loadAds(Provider.of<User>(context));
+            });
     }
-  }
-
-  Widget buildNoAdsToShowView() {
-    return Text(
-      "No Ads to show",
-      style: TextStyle(
-          fontWeight: FontWeight.w300, fontSize: 18.0, color: AppColors.red),
-    );
   }
 }

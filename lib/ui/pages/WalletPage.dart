@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iad_advertiser/core/view_models/ViewState.dart';
-import 'package:iad_advertiser/core/view_models/WalletPageViewModel.dart';
+import 'package:iad_advertiser/core/view_models/WalletScreenViewModel.dart';
 import 'package:iad_advertiser/model/payment/CreditCardPaymentMethod.dart';
 import 'package:iad_advertiser/model/payment/PaymentMethod.dart';
 import 'package:iad_advertiser/model/payment/PaymentType.dart';

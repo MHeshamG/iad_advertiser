@@ -5,7 +5,6 @@ import 'package:iad_advertiser/Locator.dart';
 import 'package:iad_advertiser/model/AdvertisingChannel.dart';
 
 class HomePageViewModel extends BaseViewModel{
-
   AdvertisingPlatform advertisingPlatform = locator<AdvertisingPlatform>();
   List<AdvertisingChannel> placesToAdvertiseAt;
 
@@ -14,5 +13,4 @@ class HomePageViewModel extends BaseViewModel{
     placesToAdvertiseAt = await advertisingPlatform.fetchAdvertisingPlaces();
     setState(ViewState.IDLE);
   }
-
 }

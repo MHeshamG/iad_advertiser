@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iad_advertiser/Locator.dart';
 import 'package:iad_advertiser/core/AuthenticationService.dart';
-import 'package:iad_advertiser/core/view_models/LoginViewModel.dart';
+import 'package:iad_advertiser/core/view_models/login_screen_view_models/LoginViewModel.dart';
 import 'package:iad_advertiser/core/view_models/ViewState.dart';
 import 'package:iad_advertiser/model/User.dart';
 import 'package:iad_advertiser/navigation/Routes.dart';
